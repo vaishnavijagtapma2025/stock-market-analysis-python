@@ -1,24 +1,6 @@
 # Project Charter — ECO 6810 Final Project
 
-> Need the big picture first? Read the [Final Project brief](./FINAL_PROJECT.md) before you fill this out.
->
-> **What this is.** Your short approved project plan. It tells me what you are trying to do, what data you will use, what your main metric is, and what a good result would look like.
->
-> **What this is not.** A brainstorm or a long proposal. Keep it short, specific, and concrete.
->
-> **Why we use it.** It keeps the project focused. Once this is approved, the milestone and the final submission are judged against this plan, not against shifting expectations later.
->
-> **How to fill it.** Copy this file. Answer every field. Keep it under two pages. If a field asks for a number, give a real number with a unit.
->
-> **Where this lives.** Fill this out inside your team GitHub repo. That repo is where we will review and approve the charter.
->
-> **How approval works.** Revise `CHARTER.md` in the repo until it is approved. Do not treat the charter as a separate detached file living somewhere else.
->
-> **Simplest editing path.** Open `CHARTER.md` on GitHub, click the pencil icon, edit the file, and commit the change.
->
-> **After approval.** One teammate can freeze the approved version as a PDF with:
-> `pandoc CHARTER.md -o charter_approved.pdf`
-> Then commit that PDF to the repo as the locked approved copy.
+# A Sector-Wise Analysis and Prediction of Indian Equity Prices
 
 ---
 
@@ -32,9 +14,6 @@
 | Charter version | v1 |
 | Date |2026-04-28|
 
-**Project type notes.** Predictive = you are trying to forecast or predict a quantity. Causal = you are trying to estimate the effect of a policy or intervention. Descriptive = you are measuring patterns or disparities without making a causal claim. The success threshold looks different for each type, so pick the one that fits your main question.
-
----
 
 ## 1. Problem and stakeholder
 
@@ -45,8 +24,9 @@ Over the past decade, large-cap Indian stocks have shown substantial variation i
 
 We aim to quantify, at the firm level, whether financial fundamentals, historical prices, and sector characteristics contain statistically meaningful predictive information for 1-year-ahead stock performance across approximately 90 NSE-listed large-cap firms. This is framed as an evaluation of whether machine learning models can improve prediction accuracy relative to a naive persistence benchmark, which assumes that stock prices follow a random walk.
 
+
 Prior empirical work in finance often emphasizes market efficiency, suggesting limited predictability using public information. Our contribution is to test this proposition in the context of the Indian equity market using a structured, sector-aware dataset and flexible machine learning methods, while explicitly benchmarking performance against a naive baseline.
----
+
 
 ## 2. Main outcome variable
 
@@ -69,20 +49,6 @@ The success of the predictive model is evaluated using out-of-sample Mean Square
 
 ## 4. Baseline to beat
 
-## 3. Main quantitative success threshold
-
-**Predictive:** Out-of-sample Mean Squared Error (MSE) on the held-out test set (most recent 20% of firms by index, N ≈ 18 firms) is strictly less than the naive persistence baseline MSE, AND the model achieves at least 70% accuracy as measured by (1 − MAPE) × 100 on the same held-out slice.
-
-Formally:
-
-`Model MSE (test) < Baseline MSE (test)`  AND  `(1 − MAPE) × 100 ≥ 70%`
-
-Both conditions must hold simultaneously for the project to be declared a success. The baseline MSE is computed before any model is trained (see Section 4).
-
----
-
-## 4. Baseline to beat
-
 **Naive Persistence:** For every firm in the test set, predict that the 1-year-forward price equals the price observed exactly 365 days earlier (i.e., `predicted = current_price`). This is the standard no-information benchmark in equity price forecasting.
 
 Based on the cross-section of 90 NSE large-caps over April 2025–April 2026, the baseline MSE reflects the average squared rupee deviation of prices from their year-ago levels — a non-trivial number given the wide price range (₹150 to ₹35,000) across the sample.
@@ -93,12 +59,7 @@ Based on the cross-section of 90 NSE large-caps over April 2025–April 2026, th
 
 Among NSE large-cap equities, a model trained on fundamental indicators (PE ratio, ROE, ROA, debt-to-equity, profit margin, revenue growth, earnings growth, EBITDA margin, price-to-book, earnings yield, sector-relative PE, and log market capitalisation) will forecast 1-year-forward closing prices with a lower out-of-sample MSE than the naive persistence benchmark, and will correctly predict the direction of price movement (up or down) for at least 60% of firms in the held-out test set
 
-
-## 5. Falsifiable hypothesis
-
-Among NSE large-cap equities, a model trained on firm-level financial fundamentals will produce a strictly lower out-of-sample Mean Squared Error (MSE) in predicting 1-year-forward stock prices than the naive persistence benchmark.
-
-## 6. Data sources and access plan
+---
 
 ## 6. Data sources and access plan
 
