@@ -26,11 +26,11 @@
 
 | Field | Value |
 |---|---|
-| Team members | _(names, 2–3 people)_ |
-| Project type | _(predictive / causal / descriptive — pick one)_ |
-| Estimated hours per person | _(be honest; 40–60 is typical)_ |
+| Team members | Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid |
+| Project type | predictive|
+| Estimated hours per person |50|
 | Charter version | v1 |
-| Date | _(YYYY-MM-DD)_ |
+| Date |2026-04-28|
 
 **Project type notes.** Predictive = you are trying to forecast or predict a quantity. Causal = you are trying to estimate the effect of a policy or intervention. Descriptive = you are measuring patterns or disparities without making a causal claim. The success threshold looks different for each type, so pick the one that fits your main question.
 
@@ -38,116 +38,126 @@
 
 ## 1. Problem and stakeholder
 
-One paragraph. Who is the specific person, institution, or policy body that would care about the answer, and what decision does the answer inform? Generic "policymakers" is not a stakeholder; "the Ministry of Petroleum and Natural Gas deciding whether to extend PMUY subsidies in FY 2026-27" is.
 
-*Write here:*
+Equity analysts in the Indian stock market evaluate firms using financial fundamentals, historical price trends, and sector performance to guide investment decisions. In large-cap equities, however, stock prices often exhibit strong persistence, making it unclear whether publicly available information provides meaningful predictive power beyond simple benchmarks.
 
+Over the past decade, large-cap Indian stocks have shown substantial variation in returns across firms and sectors such as Energy, Information Technology, and Financials. While analysts frequently rely on indicators such as return on equity, earnings growth, and valuation ratios, it remains an open question whether these variables can systematically explain or predict future stock performance.
+
+We aim to quantify, at the firm level, whether financial fundamentals, historical prices, and sector characteristics contain statistically meaningful predictive information for 1-year-ahead stock performance across approximately 90 NSE-listed large-cap firms. This is framed as an evaluation of whether machine learning models can improve prediction accuracy relative to a naive persistence benchmark, which assumes that stock prices follow a random walk.
+
+Prior empirical work in finance often emphasizes market efficiency, suggesting limited predictability using public information. Our contribution is to test this proposition in the context of the Indian equity market using a structured, sector-aware dataset and flexible machine learning methods, while explicitly benchmarking performance against a naive baseline.
 ---
 
 ## 2. Main outcome variable
 
-The single number your project centres on. State:
-
-- **Name** of the variable
-- **Unit** (percentage, Rs/month, points, deaths per 1000, etc.)
-- **Source table/column/field**
-- **Population / panel** (which rows: which years, which geographies, which people)
-
-Only one main outcome. Secondary outcomes go under "Scope limits" as things you *may* report but will not be graded on.
-
-*Write here:*
+Main outcome variable
+Name: 1-year-ahead stock price (future closing price)
+Unit: Indian Rupees (₹ per share)
+Source table/column/field:
+Yahoo Finance (via yfinance API),
+field: Close price from yf.download()
+Population / panel:
+Cross-sectional dataset of approximately 90 NSE-listed large-cap firms.
+For each firm, the outcome variable is the most recent available closing price (t), paired with a lagged price approximately 1 year prior (t−1).
+The dataset is split into 80% training firms (~72) and 20% test firms (~18)
 
 ---
 
 ## 3. Main quantitative success threshold
 
-A single numeric bar. Your project is a success if the delivered metric crosses this bar, and a failure if it does not. Pick one form:
+The success of the predictive model is evaluated using out-of-sample Mean Squared Error (MSE), computed on a held-out test set comprising the most recent 20% of firms (N ≈ 18). MSE measures the average squared deviation between predicted and actual stock prices, providing a scale-sensitive measure of prediction accuracy. The model is considered successful if its MSE is strictly less than that of a naive persistence baseline, which predicts the future price as equal to the past price (Pt=Pt−1) and is computed on the same test set and reported first.
 
-- **Predictive:** "Out-of-sample [metric] on [held-out slice] is at most X, versus baseline Y."
-- **Causal:** "Point estimate of [parameter] has 95% CI excluding zero, and |estimate| ≥ X [unit]."
-- **Descriptive:** "Produce stratified estimates of [outcome] across [N ≥ __] strata, each with sample size ≥ __ and documented standard error."
+## 4. Baseline to beat
 
-If you cannot write a number, you do not yet have a project — you have a topic. Go back to Section 2.
+## 3. Main quantitative success threshold
 
-*Write here:*
+**Predictive:** Out-of-sample Mean Squared Error (MSE) on the held-out test set (most recent 20% of firms by index, N ≈ 18 firms) is strictly less than the naive persistence baseline MSE, AND the model achieves at least 70% accuracy as measured by (1 − MAPE) × 100 on the same held-out slice.
+
+Formally:
+
+`Model MSE (test) < Baseline MSE (test)`  AND  `(1 − MAPE) × 100 ≥ 70%`
+
+Both conditions must hold simultaneously for the project to be declared a success. The baseline MSE is computed before any model is trained (see Section 4).
 
 ---
 
 ## 4. Baseline to beat
 
-The naive or prior number your threshold is measured against. Examples:
+**Naive Persistence:** For every firm in the test set, predict that the 1-year-forward price equals the price observed exactly 365 days earlier (i.e., `predicted = current_price`). This is the standard no-information benchmark in equity price forecasting.
 
-- A previous study's coefficient or error.
-- A simple AR(1) or last-value forecast.
-- An unadjusted before-after difference.
-
-State **what the baseline produces numerically** if you know it, or how you will compute it before the checkpoint if you do not. You must compute the baseline *before* you build anything fancy.
-
-*Write here:*
+Based on the cross-section of 90 NSE large-caps over April 2025–April 2026, the baseline MSE reflects the average squared rupee deviation of prices from their year-ago levels — a non-trivial number given the wide price range (₹150 to ₹35,000) across the sample.
 
 ---
 
 ## 5. Falsifiable hypothesis
 
-One sentence the data can prove wrong. A sign, a threshold, or a rank ordering. Not "we will analyse X" — "X will be greater than Y by at least Z".
+Among NSE large-cap equities, a model trained on fundamental indicators (PE ratio, ROE, ROA, debt-to-equity, profit margin, revenue growth, earnings growth, EBITDA margin, price-to-book, earnings yield, sector-relative PE, and log market capitalisation) will forecast 1-year-forward closing prices with a lower out-of-sample MSE than the naive persistence benchmark, and will correctly predict the direction of price movement (up or down) for at least 60% of firms in the held-out test set
 
-*Write here:*
 
----
+## 5. Falsifiable hypothesis
+
+Among NSE large-cap equities, a model trained on firm-level financial fundamentals will produce a strictly lower out-of-sample Mean Squared Error (MSE) in predicting 1-year-forward stock prices than the naive persistence benchmark.
 
 ## 6. Data sources and access plan
 
-For each source:
+## 6. Data sources and access plan
 
-- **Name and URL/API endpoint**
-- **Licence or permission to use**
-- **Access method** (direct download, API call, authenticated portal)
-- **A 10-line script or notebook cell** that fetches one row and prints it
+**Source: Yahoo Finance via `yfinance` Python library**
 
-If any source requires manual scraping, permissions, or a login you do not yet have, flag it here with a mitigation plan.
+- **URL / API endpoint:** `https://finance.yahoo.com` (accessed programmatically via `yfinance>=0.2.36`)
+- **Licence:** Yahoo Finance data is publicly available for personal and academic non-commercial use. No login required. No scraping — `yfinance` uses the official Yahoo Finance query API.
+- **Access method:** Direct API call via Python; no authentication needed; no rate-limit issues at 90-ticker scale.
 
-*Write here:*
+**Data fetched per ticker (Cell 3 of notebook):**
+- Historical closing price 365 days ago → `current_price`
+- Historical closing price today → `target_price` (ground truth)
+- Fundamentals from `yf.Ticker(ticker).info`: `trailingPE`, `returnOnEquity`, `returnOnAssets`, `profitMargins`, `revenueGrowth`, `earningsGrowth`, `debtToEquity`, `currentRatio`, `marketCap`, `beta`, `bookValue`, `priceToBook`, `dividendYield`, `trailingEps`, `ebitdaMargins`
+
+**10-line fetch probe (paste in any notebook cell to verify access):**
+```python
+import yfinance as yf
+from datetime import datetime, timedelta
+
+ticker = yf.Ticker("RELIANCE.NS")
+hist = yf.download("RELIANCE.NS",
+                   start=(datetime.today()-timedelta(days=5)).strftime('%Y-%m-%d'),
+                   end=datetime.today().strftime('%Y-%m-%d'),
+                   progress=False)
+print("Current price:", float(hist['Close'].iloc[-1]))
+print("PE Ratio:", ticker.info.get('trailingPE'))
+```
+
+No manual scraping, no login, no permissions required. If Yahoo Finance rate-limits a session, the fallback is to add `time.sleep(0.5)` between ticker calls.
 
 ---
+
 
 ## 7. Scope limits
 
-Bullet list of things you are **not** claiming and **not** responsible for. Examples:
-
-- "We will not estimate a structural causal effect of monetary policy."
-- "We will not harmonise district boundaries across NFHS rounds; analysis is at state level."
-- "We will not ship a mobile version of the app."
-
-This section protects you at grading time. If you clearly say "we are not doing X," you will not be graded on X.
-
-*Write here:*
-
----
+-We do not estimate any causal effect of firm fundamentals on stock prices; the analysis is purely predictive and associational.
+-We do not construct or evaluate trading strategies, portfolio optimisation, or backtesting; the output is limited to price forecasts.
+-We do not adjust for corporate actions beyond the adjusted closing prices provided by yfinance.
+-We do not model intraday, weekly, or multi-year price dynamics; the prediction horizon is fixed at 1 year (365 days).
+-We do not generalise findings beyond the sample of ~90 NSE large-cap firms used in the analysis.
+-We do not harmonise accounting standards or reporting differences; all financial variables are used as reported by Yahoo Finance.
+-We do not develop a production system, web application, or API; deliverables are limited to a reproducible notebook and output files.
 
 ## 8. Risks and fallback
 
-One named failure mode, and the fallback analysis you will run if it materialises. Examples:
-
-- "If the 2022-23 PPAC data is not released by the checkpoint, we will use the FY 2021-22 panel and document the truncation."
-- "If DiD parallel-trends fails visually, we fall back to a state-fixed-effects panel regression with year trends and report both."
-
-One risk is enough. Two is fine. Zero means you have not thought hard enough.
-
-*Write here:*
-
----
+* Risk: The dataset is small (≈ 90 firms) and cross-sectional, which may limit the ability of machine learning models to generalize and outperform the naive persistence baseline.
+* Fallback: If models fail to beat the baseline MSE, we will reframe the analysis to focus on directional prediction (up/down classification) and report directional accuracy alongside error metrics.
+* Risk: Stock prices are non-stationary and scale-dependent, which may lead to poor performance when predicting price levels directly.
+* Fallback: If large prediction errors persist, we will transform the outcome variable to returns and evaluate model performance using return-based metrics.
 
 ## 9. Reproducibility checklist
 
 Your final repo must satisfy all of these:
 
-- [ ] `uv run main.py` runs end-to-end in under 10 minutes on a clean machine with no manual intervention.
-- [ ] It writes `outputs/primary_metric.json` containing a single JSON object with at least `{"metric_name": "...", "value": <number>, "threshold": <number>, "passed": <bool>}`.
-- [ ] It writes `outputs/baseline_metric.json` in the same shape.
-- [ ] A `README.md` documents the commands and expected outputs in ≤ 20 lines.
-- [ ] All data sources are either fetched in-script or committed under `data/` with a licence note.
-
-If you cannot commit to this, your project is probably still too broad. Talk to the instructor before proceeding.
+- [x] `uv run main.py` runs end-to-end in under 10 minutes on a clean machine with no manual intervention.
+- [x] It writes `outputs/primary_metric.json` containing a single JSON object with at least `{"metric_name": "...", "value": <number>, "threshold": <number>, "passed": <bool>}`.
+- [x] It writes `outputs/baseline_metric.json` in the same shape.
+- [x] A `README.md` documents the commands and expected outputs in ≤ 20 lines.
+- [x] All data sources are either fetched in-script or committed under `data/` with a licence note.
 
 ---
 
@@ -155,4 +165,4 @@ If you cannot commit to this, your project is probably still too broad. Talk to 
 
 By submitting this charter, the team agrees that this is the plan the project will be graded against. The instructor will not penalize you just because the topic turns out to be difficult, as long as the project stays honest and within the approved scope.
 
-*Signed:* _(team member names)_
+*Signed:*  Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
