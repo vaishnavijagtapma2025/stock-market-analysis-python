@@ -2,6 +2,8 @@
 
 # A Sector-Wise Analysis and Prediction of Indian Equity Prices
 
+This project presents a data-driven analysis and prediction of stock prices for large-cap Indian equities, integrating firm-level financial fundamentals, historical price data, and sector classification. The study first examines cross-sectional patterns in stock performance across firms and industries, and then develops machine learning models to forecast 1-year-ahead stock prices. By explicitly comparing model performance against a naive persistence benchmark, the project evaluates whether publicly available information contains meaningful predictive signals beyond simple price continuation. The results provide insights into the extent of predictability in equity markets and the practical value of data-driven approaches for investment analysis.
+
 ---
 
 ## Header
@@ -105,10 +107,10 @@ No manual scraping, no login, no permissions required. If Yahoo Finance rate-lim
 
 ## 8. Risks and fallback
 
-* Risk: The dataset is small (≈ 90 firms) and cross-sectional, which may limit the ability of machine learning models to generalize and outperform the naive persistence baseline.
-* Fallback: If models fail to beat the baseline MSE, we will reframe the analysis to focus on directional prediction (up/down classification) and report directional accuracy alongside error metrics.
-* Risk: Stock prices are non-stationary and scale-dependent, which may lead to poor performance when predicting price levels directly.
-* Fallback: If large prediction errors persist, we will transform the outcome variable to returns and evaluate model performance using return-based metrics.
+-Risk: The dataset is small (≈ 90 firms) and cross-sectional, which may limit the ability of machine learning models to generalize and outperform the naive persistence baseline.
+-Fallback: If models fail to beat the baseline MSE, we will reframe the analysis to focus on directional prediction (up/down classification) and report directional accuracy alongside error metrics.
+-Risk: Stock prices are non-stationary and scale-dependent, which may lead to poor performance when predicting price levels directly.
+-Fallback: If large prediction errors persist, we will transform the outcome variable to returns and evaluate model performance using return-based metrics.
 
 ## 9. Reproducibility checklist
 
