@@ -97,13 +97,20 @@ No manual scraping, no login, no permissions required. If Yahoo Finance rate-lim
 
 ## 7. Scope limits
 
-We do not estimate any causal effect of firm fundamentals on stock prices; the analysis is purely predictive and associational.
-We do not construct or evaluate trading strategies, portfolio optimisation, or backtesting; the output is limited to price forecasts.
-We do not adjust for corporate actions beyond the adjusted closing prices provided by yfinance.
-We do not model intraday, weekly or multi-year price dynamics; the prediction horizon is fixed at 1 year (365 days).
-We do not generalise findings beyond the sample of 90 NSE large-cap firms used in the analysis.
-We do not harmonise accounting standards or reporting differences; all financial variables are used as reported by Yahoo Finance.
-We do not develop a production system, web application, or API; deliverables are limited to a reproducible notebook and output files.
+  No causal inference; analysis is purely predictive and associational
+
+  No trading strategies, portfolio optimisation, or backtesting; only price forecasts
+
+  No adjustment for corporate actions beyond adjusted closing prices from yfinance
+
+  No intraday, weekly, or multi-year modelling; fixed prediction horizon = 1 year (365 days)
+
+  No generalisation beyond sample of 90 NSE large-cap firms
+
+ No harmonisation of accounting/reporting differences; data used as reported by Yahoo Finance
+
+ No production system, web app, or API; only reproducible notebook and output files
+
 
 ## 8. Risks and fallback
 
