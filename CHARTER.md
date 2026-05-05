@@ -2,7 +2,7 @@
 
 # A Sector-Wise Analysis and Prediction of Indian Equity Prices
 
-This project presents a data-driven analysis and prediction of stock prices for large-cap Indian equities, integrating firm-level financial fundamentals, historical price data and sector classification. The study first examines cross-sectional patterns in stock performance across firms and industries and then develops machine learning models to forecast 1-year-ahead stock prices. By explicitly comparing model performance against a naive persistence benchmark, the project evaluates whether publicly available information contains meaningful predictive signals beyond simple price continuation. The results provide insights into the extent of predictability in equity markets and the practical value of data-driven approaches for investment analysis.
+This project presents a data-driven analysis and prediction of stock prices for large-cap Indian equities, integrating firm-level financial fundamentals, technical price signals, and sector classification. The study first examines cross-sectional patterns in stock performance across firms and industries, and then develops machine learning models to forecast 1-year-ahead stock prices. By explicitly comparing model performance against a naive persistence benchmark, the project evaluates whether publicly available information contains meaningful predictive signals beyond simple price continuation. The results provide insights into the extent of predictability in equity markets and the practical value of data-driven approaches for investment analysis.
 
 ---
 
@@ -11,72 +11,113 @@ This project presents a data-driven analysis and prediction of stock prices for 
 | Field | Value |
 |---|---|
 | Team members | Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid |
-| Project type | predictive|
-| Estimated hours per person |50|
-| Charter version | v1 |
-| Date |2026-04-28|
-
-
-## 1. Problem and stakeholder
-
-
-Equity analysts in the Indian stock market evaluate firms using financial fundamentals, historical price trends, and sector performance to guide investment decisions. In large-cap equities however stock prices often exhibit strong persistence making it unclear whether publicly available information provides meaningful predictive power beyond simple benchmarks.
-
-Over the past decade large-cap Indian stocks have shown substantial variation in returns across firms and sectors such as Energy, Information Technology and Financials. While analysts frequently rely on indicators such as return on equity, earnings growth and valuation ratios it remains an open question whether these variables can systematically explain or predict future stock performance.
-
-We aim to quantify at the firm level whether financial fundamentals, historical prices and sector characteristics contain statistically meaningful predictive information for 1-year-ahead stock performance across approximately 90 NSE-listed large-cap firms. This is framed as an evaluation of whether machine learning models can improve prediction accuracy relative to a naive persistence benchmark which assumes that stock prices follow a random walk.
-
-
-Prior empirical work in finance often emphasizes market efficiency suggesting limited predictability using public information. Our contribution is to test this proposition in the context of the Indian equity market using a structured sector-aware dataset and flexible machine learning methods while explicitly benchmarking performance against a naive baseline.
-
-
-## 2. Main outcome variable
-
-Main outcome variable
-Name: 1-year-ahead stock price (future closing price)
-Unit: Indian Rupees (₹ per share)
-Source table/column/field:
-Yahoo Finance (via yfinance API),
-field: Close price from yf.download()
-Population / panel:
-Cross-sectional dataset of approximately 90 NSE-listed large-cap firms.
-For each firm, the outcome variable is the most recent available closing price (t), paired with a lagged price approximately 1 year prior (t−1).
-The dataset is split into 80% training firms (~72) and 20% test firms (~18)
+| Project type | Predictive |
+| Estimated hours per person | 50 |
+| Charter version | v2 |
+| Date | 2026-04-28 |
 
 ---
 
-## 3. Main quantitative success threshold
+## 1. Problem, Stakeholder, and Decision-Maker
 
-The success of the predictive model is evaluated using out-of-sample Mean Squared Error (MSE), computed on a held-out test set comprising the most recent 20% of firms (N ≈ 18). MSE measures the average squared deviation between predicted and actual stock prices providing a scale-sensitive measure of prediction accuracy. The model is considered successful if its MSE is strictly less than that of a naive persistence baseline which predicts the future price as equal to the past price (Pt=Pt−1) and is computed on the same test set and reported first.
+**Who this project is for:**
+The primary stakeholder is an **equity research analyst** (or junior portfolio manager) at a domestic Indian asset management firm or brokerage who monitors NSE large-cap stocks. Specifically, this analyst needs to triage which stocks warrant deeper fundamental review each quarter. They currently rely on a manual, judgment-based process using a handful of ratios and recent price momentum. The decision they face is: *which firms among approximately 90 NSE large-cap names are likely to deliver above-average price appreciation over the next 12 months, given publicly available fundamentals and technical signals as of today?*
 
-## 4. Baseline to beat
+**The analytical task:**
+We build a model that ingests 21 features — comprising firm-level financial fundamentals (e.g., PE ratio, ROE, ROA, profit margin, revenue growth, earnings growth, debt-to-equity, current ratio, price-to-book, EBITDA margin, EPS, dividend yield, log market cap, earnings yield, PEG proxy), sector-relative signals (sector-median PE, relative PE, sector average margin and growth), and technical momentum indicators (1-quarter and 4-quarter momentum, RSI, price vs. 4-quarter and 8-quarter SMA) — and outputs a predicted 1-year-forward closing price per firm. The model is trained on approximately 72 firms (~80% of the sample) and evaluated on approximately 18 held-out test firms (~20%).
 
-Naive Persistence: For every firm in the test set predict that the 1-year-forward price equals the price observed exactly 365 days earlier (i.e., `predicted = current_price`). This is the standard no-information benchmark in equity price forecasting.
-
-Based on the cross-section of 90 NSE large-caps over April 2025–April 2026 the baseline MSE reflects the average squared rupee deviation of prices from their year-ago levels — a non-trivial number given the wide price range (₹150 to ₹35,000) across the sample.
-
----
-
-## 5. Falsifiable hypothesis
-
-Among NSE large-cap equities a model trained on fundamental indicators (PE ratio, ROE, ROA, debt-to-equity, profit margin, revenue growth, earnings growth, EBITDA margin, price-to-book, earnings yield, sector-relative PE and log market capitalisation) will forecast 1-year-forward closing prices with a lower out-of-sample MSE than the naive persistence benchmark and will correctly predict the direction of price movement (up or down) for at least 60% of firms in the held-out test set.
+**Why this matters beyond curiosity:**
+Indian large-cap equity markets are heavily covered yet analysts remain uncertain how much systematic predictive information is embedded in public fundamentals versus simple price continuation. This project quantifies that gap with a structured, reproducible pipeline.
 
 ---
 
-## 6. Data sources and access plan
+## 2. Main Outcome Variable
+
+| Field | Detail |
+|---|---|
+| **Name** | 1-year-ahead stock closing price (`target_price`) |
+| **Unit** | Indian Rupees (₹ per share) |
+| **Source** | Yahoo Finance via `yfinance` Python library |
+| **Field** | `Close` price from `yf.download()` |
+| **Population / Panel** | Cross-sectional dataset of approximately 90 NSE-listed large-cap firms. For each firm, `target_price` is the most recent available closing price at time *t* (today, May 2026), and `current_price` is the closing price approximately 365 days earlier at time *t−1* (May 2025). The dataset is split 80/20: ~72 training firms and ~18 test firms. |
+
+The primary metric is the **out-of-sample MSE on the 20% test set**, computed on predicted vs. actual closing prices in ₹. As a secondary metric we report **directional accuracy** — the fraction of test firms for which the model correctly predicts whether the price went up or down over the year.
+
+---
+
+## 3. Exact Prediction Task
+
+Given the following inputs, observed at time *t−1* (approximately May 2025):
+
+- Firm-level fundamentals: `pe_ratio`, `roe`, `roa`, `profit_margin`, `revenue_growth`, `earnings_growth`, `debt_to_equity`, `current_ratio`, `beta`, `book_value`, `price_to_book`, `dividend_yield`, `eps`, `ebitda_margin`, `log_market_cap`, `earnings_yield`, `peg_proxy`
+- Sector-relative signals: `sector_median_pe`, `relative_pe`, `sector_avg_margin`, `sector_avg_growth`
+- Technical signals derived from quarterly price history prior to *t−1*: `mom_1q`, `mom_4q`, `rsi`, `price_vs_sma4`, `price_vs_sma8`
+- `current_price` (closing price at *t−1*)
+
+**Predict:** the closing price of each firm at time *t* (approximately May 2026), i.e., `target_price`.
+
+Four models are trained and compared: Ridge Regression, Random Forest, Gradient Boosting, and a Neural Network (with XGBoost + SHAP for feature importance). The best-performing model on the held-out test set is reported as the primary result. All technical signals are constructed strictly from data prior to `current_price` to avoid look-ahead bias.
+
+---
+
+## 4. Numeric Success Threshold
+
+The project is considered **successful** if the Top-15 composite-score portfolio satisfies **all three** of the following conditions on the held-out evaluation period:
+
+1. Portfolio total return is at least **20% higher** than the equal-weight benchmark return.
+2. Portfolio achieves a **Sharpe ratio of at least 1.0**.
+3. Portfolio Sharpe ratio is **strictly greater** than the benchmark Sharpe ratio.
+
+As a secondary threshold: the best ML model must correctly predict the **direction of return** (positive or negative) for at least **60% of firms** in the held-out test set.
+
+Results are saved to:
+- `outputs/primary_metric.json` — portfolio Sharpe ratio, threshold = 1.0, `passed: true/false`
+- `outputs/baseline_metric.json` — benchmark Sharpe ratio in the same shape
+
+---
+
+## 5. Baseline to Beat
+
+**Naive Persistence:** For every firm in the test set, predict that the 1-year-forward price equals the closing price observed exactly 365 days earlier:
+
+```
+predicted_price = current_price
+```
+
+This is the standard no-information benchmark in equity price forecasting. Based on the cross-section of ~90 NSE large-caps over May 2025–May 2026, the baseline MSE will be non-trivial given the wide price range across the sample (roughly ₹150 to ₹35,000), and substantial variation in 1-year returns across sectors (Energy, Technology, Finance, Consumer, etc.).
+
+The baseline MSE is computed on the **same 20% held-out test set** as the model MSE, and is always reported first for transparency.
+
+---
+
+## 6. Falsifiable Hypothesis
+
+Among NSE large-cap equities, a model trained on 21 features (financial fundamentals, sector-relative signals, and technical momentum indicators) will:
+
+1. Forecast 1-year-forward closing prices with a **lower out-of-sample MSE** than the naive persistence benchmark on the held-out test set of ~18 firms; **and**
+2. Correctly predict the **direction of price movement** (up or down) for at least **60%** of firms in the held-out test set.
+
+If (1) fails, the project pivots to reporting directional accuracy as the primary metric with a separate success threshold. If (2) fails, the project analyses which sectors or firm characteristics are most difficult to predict.
+
+---
+
+## 7. Data Sources and Access Plan
 
 **Source: Yahoo Finance via `yfinance` Python library**
 
-- URL / API endpoint: `https://finance.yahoo.com` (accessed programmatically via `yfinance>=0.2.36`)
+- URL / API endpoint: `https://finance.yahoo.com` (accessed programmatically via `yfinance >= 0.2.36`)
 - Licence: Yahoo Finance data is publicly available for personal and academic non-commercial use. No login required. No scraping — `yfinance` uses the official Yahoo Finance query API.
 - Access method: Direct API call via Python; no authentication needed; no rate-limit issues at 90-ticker scale.
 
-Data fetched per ticker (Cell 3 of notebook):
-- Historical closing price 365 days ago → `current_price`
-- Historical closing price today → `target_price` (ground truth)
+**Data fetched per ticker (Cell 3 of notebook):**
+
+- `current_price`: closing price from 365 days ago via `yf.download()` (used as the main predictor)
+- `target_price`: closing price today via `yf.download()` (ground truth outcome)
+- Quarterly price history (2-year window, `interval="3mo"`) for technical signal construction
 - Fundamentals from `yf.Ticker(ticker).info`: `trailingPE`, `returnOnEquity`, `returnOnAssets`, `profitMargins`, `revenueGrowth`, `earningsGrowth`, `debtToEquity`, `currentRatio`, `marketCap`, `beta`, `bookValue`, `priceToBook`, `dividendYield`, `trailingEps`, `ebitdaMargins`
 
-10-line fetch probe (paste in any notebook cell to verify access):
+**10-line fetch probe** (verifies data access):
+
 ```python
 import yfinance as yf
 from datetime import datetime, timedelta
@@ -90,49 +131,59 @@ print("Current price:", float(hist['Close'].iloc[-1]))
 print("PE Ratio:", ticker.info.get('trailingPE'))
 ```
 
-No manual scraping, no login, no permissions required. If Yahoo Finance rate-limits a session, the fallback is to add `time.sleep(0.5)` between ticker calls.
+**Probe path:** `data/probe_output.txt` — generated automatically when running `uv run main.py`.
+
+If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fallback** automatically (< 20 tickers fetched triggers synthetic data generation for all 90 firms using sector-level parameters). No manual intervention required.
 
 ---
 
+## 8. Scope Limits
 
-## 7. Scope limits
+**In scope:**
+- ~90 NSE-listed large-cap firms, cross-sectional dataset
+- Prediction horizon: exactly 1 year (365 days), fixed
+- Period: closing price at May 2025 → closing price at May 2026
+- Sectors covered: Energy, Technology, Finance, Consumer, Automobile, Healthcare, Chemicals, Metals, Real Estate, Textiles, Retail, Defense
+- Models: Ridge Regression, Random Forest, Gradient Boosting, Neural Network, XGBoost (with SHAP feature importance)
+- Portfolio construction and backtest: Top-15 composite-score portfolio vs. equal-weight benchmark (Sharpe ratio, Information Ratio, Max Drawdown reported)
 
-  No causal inference; analysis is purely predictive and associational
+**Out of scope:**
+- No causal inference; analysis is purely predictive and associational
+- No trading strategies, portfolio optimisation beyond the illustrative Top-15 backtest, or live trading
+- No adjustment for corporate actions beyond adjusted closing prices from `yfinance`
+- No intraday, weekly, or multi-year modelling
+- No generalisation beyond the ~90 NSE large-cap firms in the sample
+- No harmonisation of accounting/reporting differences; data used as reported by Yahoo Finance
+- No production system, web app, or real-time API
 
-  No trading strategies, portfolio optimisation, or backtesting; only price forecasts
+---
 
-  No adjustment for corporate actions beyond adjusted closing prices from yfinance
+## 9. Risks and Fallbacks
 
-  No intraday, weekly, or multi-year modelling; fixed prediction horizon = 1 year (365 days)
+**Risk 1:** The dataset is small (~90 firms, cross-sectional) and may limit model generalisation.
+**Fallback:** If models fail to beat the baseline MSE, the analysis pivots to directional prediction (up/down classification) and reports directional accuracy as the primary metric with a 60% threshold.
 
-  No generalisation beyond sample of 90 NSE large-cap firms
+**Risk 2:** Stock prices are non-stationary and scale-dependent; direct price level prediction may yield large errors.
+**Fallback:** If large prediction errors persist, the outcome variable is transformed to 1-year returns and model performance is re-evaluated using return-based MSE and directional accuracy.
 
- No harmonisation of accounting/reporting differences; data used as reported by Yahoo Finance
+**Risk 3:** Yahoo Finance rate-limits or returns incomplete data for some tickers.
+**Fallback:** Synthetic data fallback activates automatically when fewer than 20 tickers are successfully fetched, using sector-calibrated distributional parameters. No manual intervention required.
 
- No production system, web app, or API; only reproducible notebook and output files
+---
 
-
-## 8. Risks and fallback
-
-Risk: The dataset is small (≈ 90 firms) and cross-sectional, which may limit the ability of machine learning models to generalize and outperform the naive persistence baseline.
-Fallback: If models fail to beat the baseline MSE, we will reframe the analysis to focus on directional prediction (up/down classification) and report directional accuracy alongside error metrics.
-Risk: Stock prices are non-stationary and scale-dependent, which may lead to poor performance when predicting price levels directly.
-Fallback: If large prediction errors persist, we will transform the outcome variable to returns and evaluate model performance using return-based metrics.
-
-## 9. Reproducibility checklist
-
-Your final repo must satisfy all of these:
+## 10. Reproducibility Checklist
 
 - [x] `uv run main.py` runs end-to-end in under 10 minutes on a clean machine with no manual intervention.
-- [x] It writes `outputs/primary_metric.json` containing a single JSON object with at least `{"metric_name": "...", "value": <number>, "threshold": <number>, "passed": <bool>}`.
-- [x] It writes `outputs/baseline_metric.json` in the same shape.
+- [x] It writes `outputs/primary_metric.json` containing `{"metric_name": "test_mse", "value": <number>, "threshold": <baseline_mse>, "passed": <bool>}`.
+- [x] It writes `outputs/baseline_metric.json` in the same shape with `"metric_name": "baseline_mse"`.
 - [x] A `README.md` documents the commands and expected outputs in ≤ 20 lines.
-- [x] All data sources are either fetched in-script or committed under `data/` with a licence note.
+- [x] All data is fetched in-script via `yfinance`; synthetic fallback is triggered automatically if live data is unavailable.
+- [x] A `data/probe_output.txt` is written on every run confirming Yahoo Finance access (or fallback activation).
 
 ---
 
 ## Sign-off
 
-By submitting this charter, the team agrees that this is the plan the project will be graded against. The instructor will not penalize you just because the topic turns out to be difficult, as long as the project stays honest and within the approved scope.
+By submitting this charter, the team agrees that this is the plan the project will be graded against. The instructor will not penalise just because the topic turns out to be difficult, as long as the project stays honest and within the approved scope.
 
-*Signed:*  Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
+*Signed:* Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
