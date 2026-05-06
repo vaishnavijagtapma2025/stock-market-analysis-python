@@ -1,40 +1,8 @@
 {
-  "xgboost": {
-    "model_name": "XGBoost",
-    "hyperparameters": {
-      "n_estimators": 400,
-      "learning_rate": 0.05,
-      "max_depth": 4,
-      "subsample": 0.8,
-      "colsample_bytree": 0.8,
-      "reg_alpha": 0.1,
-      "reg_lambda": 1.0,
-      "random_state": 42
-    },
-    "test_set_size": 18,
-    "mse": 305791.74,
-    "r2": -0.1901,
-    "accuracy_pct": 3.28,
-    "directional_acc_pct": 50.0,
-    "beat_baseline_mse": false
-  },
-  "neural_network": {
-    "model_name": "Neural Network (TensorFlow/Keras)",
-    "architecture": "Input \u2192 Dense(128,ReLU) \u2192 BN \u2192 Dropout(0.3) \u2192 Dense(64,ReLU) \u2192 BN \u2192 Dropout(0.2) \u2192 Dense(32,ReLU) \u2192 Dropout(0.1) \u2192 Dense(1)",
-    "optimizer": "Adam(lr=0.001)",
-    "loss_function": "Huber",
-    "max_epochs": 300,
-    "early_stopping": true,
-    "test_set_size": 18,
-    "mse": 0.0,
-    "r2": 0.0,
-    "accuracy_pct": 0.0,
-    "directional_acc_pct": 0.0,
-    "beat_baseline_mse": false
-  },
-  "best_model": "XGBoost",
-  "best_mse": 305791.74,
-  "best_r2": -0.1901,
-  "best_directional_acc_pct": 50.0,
-  "overall_beat_baseline": false
+  "metric_name": "replace_me_primary",
+  "value": 0.0,
+  "threshold": 0.0,
+  "passed": false,
+  "notes": "Template value. Replace this with your real project metric before the final submission.",
+  "is_template": true
 }

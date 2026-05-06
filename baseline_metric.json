@@ -1,10 +1,7 @@
 {
-  "model_name": "Baseline (Naive Persistence)",
-  "description": "Predicts next-year price equals current price. No learning \u2014 used as the minimum bar to beat.",
-  "test_set_size": 18,
-  "mse": 27818.69,
-  "r2": 0.8917,
-  "accuracy_pct": 83.99,
-  "directional_acc_pct": 55.56,
-  "notes": "High R\u00b2 here is misleading \u2014 prices changed little vs scale, so simply holding current price looks good on R\u00b2. MSE and directional accuracy are the meaningful thresholds."
+  "metric_name": "replace_me_baseline",
+  "value": 0.0,
+  "unit": "replace_me_unit",
+  "notes": "Template value. Replace this with your real baseline before the milestone.",
+  "is_template": true
 }

@@ -1,98 +1,15 @@
 {
-  "student_name": "Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid",
-  "student_id": "3120251031",
-  "course": "ECO 6810",
-  "submission": "Final Project \u2014 April 2026",
-  "dataset": {
-    "name": "Indian Equity Portfolio Dataset",
-    "source": "Yahoo Finance via yfinance (NSE tickers)",
-    "total_tickers": 89,
-    "train_size": 71,
-    "test_size": 18,
-    "split_method": "Temporal 80/20 split (no look-ahead bias)",
-    "price_window": "Current price: 1 year ago | Target price: today",
-    "sectors": [
-      "Energy",
-      "Technology",
-      "Finance",
-      "Consumer",
-      "Automobile",
-      "Healthcare",
-      "Chemicals",
-      "RealEstate",
-      "Textiles",
-      "Retail",
-      "Defense",
-      "Metals"
-    ]
-  },
-  "feature_engineering": {
-    "raw_features": [
-      "pe_ratio",
-      "roe",
-      "roa",
-      "profit_margin",
-      "revenue_growth",
-      "earnings_growth",
-      "debt_to_equity",
-      "current_ratio",
-      "market_cap",
-      "beta",
-      "book_value",
-      "price_to_book",
-      "dividend_yield",
-      "eps",
-      "ebitda_margin"
-    ],
-    "engineered_features": [
-      "log_market_cap    \u2014 log1p of market cap to compress scale",
-      "earnings_yield    \u2014 1/PE, clipped to [-2, 2]",
-      "relative_pe       \u2014 PE relative to sector median",
-      "actual_1yr_return \u2014 (target - current) / current",
-      "peg_proxy         \u2014 PE / (|earnings_growth| * 100)"
-    ],
-    "total_features_used": 17,
-    "missing_value_strategy": "Fill with column median"
-  },
-  "models_trained": [
-    "Baseline (Naive Persistence)",
-    "XGBoost (XGBRegressor)",
-    "Neural Network (TensorFlow/Keras)"
+  "charter_locked": false,
+  "sources": [
+    {
+      "name": "replace_me_source",
+      "status": "blocked",
+      "probe_artifact": "artifacts/probes/replace_me_probe.md",
+      "note": "Replace this with a real one-row or one-response source probe."
+    }
   ],
-  "evaluation_metrics": [
-    "MSE  \u2014 Mean Squared Error (primary threshold metric)",
-    "R\u00b2   \u2014 Coefficient of Determination",
-    "MAPE \u2014 Mean Absolute Percentage Error",
-    "Accuracy % \u2014 (1 - MAPE) * 100",
-    "Directional Accuracy \u2014 % of correct up/down predictions"
-  ],
-  "charts_produced": {
-    "count": 6,
-    "list": [
-      "Chart 1 \u2014 Data Overview: price distribution, return distribution, sector breakdown",
-      "Chart 2 \u2014 Model Comparison: MSE, R\u00b2, Accuracy, Directional Accuracy (bar charts)",
-      "Chart 3 \u2014 Actual vs Predicted scatter (XGBoost & Neural Network)",
-      "Chart 4 \u2014 Residual Analysis: residuals vs predicted + % error histograms",
-      "Chart 5 \u2014 SHAP Feature Importance + XGBoost built-in importance",
-      "Chart 6 \u2014 Neural Network training curve (train vs val loss)"
-    ]
-  },
-  "top_5_features_by_shap": [
-    "eps",
-    "pe_ratio",
-    "price_to_book",
-    "relative_pe",
-    "log_market_cap"
-  ],
-  "checklist": {
-    "dataset_loaded": true,
-    "feature_engineering_done": true,
-    "baseline_model_trained": true,
-    "xgboost_trained": true,
-    "neural_network_trained": true,
-    "6_charts_produced": true,
-    "full_prediction_table": true,
-    "json_outputs_written": true,
-    "submission_complete": true
-  }
+  "baseline_ready": false,
+  "primary_metric_schema_ready": true,
+  "run_command": "uv run main.py",
+  "template_warning": "This scaffold runs, but it is not submission-ready until you replace the placeholders."
 }
