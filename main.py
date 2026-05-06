@@ -624,42 +624,6 @@ styled = results.style\
 display(styled)
 print(f'\nDirectional accuracy: {(results["Direction_Correct"]=="✅").mean()*100:.1f}%')
 
-def build_baseline_metric():
-    return {
-        "model": "Naive Persistence Baseline",
-        "mse": 31050.34,
-        "r2": 0.8816,
-        "accuracy_1_minus_mape": 83.46,
-        "directional_accuracy": 61.1,
-        "status": "real notebook output"
-    }
-
-
-def build_primary_metric():
-    return {
-        "model": "XGBoost",
-        "mse": 852286.61,
-        "r2": -2.2491,
-        "directional_accuracy": 72.2,
-        "best_metric": "directional_accuracy",
-        "status": "preliminary but real"
-    }
-
-
-def build_milestone_manifest():
-    return {
-        "project": "Indian Equity Price Predictor",
-        "status": "working",
-        "data_source": "Yahoo Finance via yfinance",
-        "models": [
-            "Naive Baseline",
-            "XGBoost",
-            "Neural Network"
-        ],
-        "notebook": "notebooks/Indian_Equity_Predictor_Masters.ipynb",
-        "outputs_generated": True
-    }
-
 
 
 
