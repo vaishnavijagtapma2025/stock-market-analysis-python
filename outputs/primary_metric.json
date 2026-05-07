@@ -1,8 +1,13 @@
+
+
 {
-  "metric_name": "replace_me_primary",
-  "value": 0.0,
-  "threshold": 0.0,
-  "passed": false,
-  "notes": "Template value. Replace this with your real project metric before the final submission.",
-  "is_template": true
+  "metric_name": "test_mse",
+  "value": 689071.0741,
+  "threshold": 5425582.2066,
+  "passed": true,
+  "model": "Ridge",
+  "directional_accuracy_pct": 50.0,
+  "directional_passed": false,
+  "notes": "Best performing model: Ridge. Primary metric passes if test MSE beats baseline MSE.",
+  "is_template": false
 }
