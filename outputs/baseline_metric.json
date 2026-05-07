@@ -1,7 +1,9 @@
 {
-  "metric_name": "replace_me_baseline",
-  "value": 0.0,
-  "unit": "replace_me_unit",
-  "notes": "Template value. Replace this with your real baseline before the milestone.",
-  "is_template": true
+    "model_name": "Baseline (Naive Persistence)",
+    "description": "Predicts next-year price equals current price.",
+    "test_set_size": 18,
+    "mse": 5425582.2066,
+    "r2": 0.9204,
+    "directional_acc_pct": 77.78,
+    "notes": "Baseline benchmark used as minimum threshold."
 }
