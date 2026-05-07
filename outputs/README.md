@@ -1,15 +1,17 @@
-# Outputs Folder
+# Indian Equity Predictor — ECO6810
 
-This folder should contain the files the project writes when it runs.
+## Setup
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) then:
 
-Required:
+## Run
+```bash
+uv run main.py
+```
 
-- `baseline_metric.json`
-- `primary_metric.json`
-- `milestone_manifest.json`
-
-Usually also:
-
-- tables as CSV
-- figures as PNG or PDF
-- any small machine-readable outputs the report depends on
+## Expected outputs
+- `outputs/primary_metric.json` — best model test MSE vs baseline MSE (pass/fail)
+- `outputs/baseline_metric.json` — naive persistence baseline MSE
+- `outputs/milestone_manifest.json` — data source status and run metadata
+- `outputs/model_comparison.json` — all 4 models compared
+- `outputs/full_predictions.csv` — per-firm predictions
+- `outputs/chart*.png` — 7 analysis charts
