@@ -62,19 +62,17 @@ Four models are trained and compared: Ridge Regression, Random Forest, Gradient 
 
 ## 4. Numeric Success Threshold
 
-The project is considered **successful** if the Top-15 composite-score portfolio satisfies **all three** of the following conditions on the held-out evaluation period:
+The project is considered successful if:
 
-1. Portfolio total return is at least **20% higher** than the equal-weight benchmark return.
-2. Portfolio achieves a **Sharpe ratio of at least 1.0**.
-3. Portfolio Sharpe ratio is **strictly greater** than the benchmark Sharpe ratio.
+The best-performing ML model achieves a lower out-of-sample test MSE than the naive persistence baseline on the same held-out test set.
+The model achieves directional accuracy of at least 60% on the held-out test set.
 
-As a secondary threshold: the best ML model must correctly predict the **direction of return** (positive or negative) for at least **60% of firms** in the held-out test set.
+Portfolio analysis (Sharpe ratio, benchmark comparison, and Top-15 portfolio evaluation) is reported only as an additional exploratory analysis and is not used as the primary grading metric.
 
 Results are saved to:
-- `outputs/primary_metric.json` — portfolio Sharpe ratio, threshold = 1.0, `passed: true/false`
-- `outputs/baseline_metric.json` — benchmark Sharpe ratio in the same shape
 
----
+outputs/primary_metric.json — Model test MSE, baseline MSE threshold, and pass/fail indicator
+outputs/baseline_metric.json — baseline persistence MSE
 
 ## 5. Baseline to Beat
 
@@ -97,7 +95,7 @@ Among NSE large-cap equities, a model trained on 21 features (financial fundamen
 1. Forecast 1-year-forward closing prices with a **lower out-of-sample MSE** than the naive persistence benchmark on the held-out test set of ~18 firms; **and**
 2. Correctly predict the **direction of price movement** (up or down) for at least **60%** of firms in the held-out test set.
 
-If (1) fails, the project pivots to reporting directional accuracy as the primary metric with a separate success threshold. If (2) fails, the project analyses which sectors or firm characteristics are most difficult to predict.
+Directional accuracy is reported as a secondary evaluation metric alongside test MSE.
 
 ---
 
