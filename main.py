@@ -1,5 +1,4 @@
-!pip install yfinance xgboost shap --quiet
-print('✅ All packages installed.')
+
 
 import pandas as pd
 import numpy as np
