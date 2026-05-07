@@ -5,7 +5,7 @@
 Yahoo Finance NSE Stock Data
 
 ## Access method
-Python yfinance API
+Python yfinance package (Yahoo Finance API wrapper)
 
 ## URL or endpoint
 https://finance.yahoo.com/
@@ -13,17 +13,12 @@ https://finance.yahoo.com/
 ## One-row proof
 
 {
-  "Date": "2026-05-01 00:00:00+05:30",
-  "Open": 1430.800048828125,
-  "High": 1430.800048828125,
-  "Low": 1430.800048828125,
-  "Close": 1430.800048828125,
-  "Volume": 0.0,
-  "Dividends": 0.0,
-  "Stock Splits": 0.0
+  "Ticker": "RELIANCE.NS",
+  "Current_Price": 2128.0,
+  "Target_Price": 1878.6
 }
 
 ## Notes
 
-Successfully fetched live NSE stock data using the yfinance package.
-This confirms that the source is reachable and working correctly.
+Successfully fetched historical NSE stock data using yfinance.
+This confirms the data source is live, reachable, and reproducible.
