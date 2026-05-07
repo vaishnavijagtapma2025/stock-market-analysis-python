@@ -13,8 +13,8 @@ This project presents a data-driven analysis and prediction of stock prices for 
 | Team members | Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid |
 | Project type | Predictive |
 | Estimated hours per person | 50 |
-| Charter version | v2 |
-| Date | 2026-04-28 |
+| Charter version | v3 |
+| Date | 2026-05-08 |
 
 ---
 
@@ -43,6 +43,8 @@ Indian large-cap equity markets are heavily covered yet analysts remain uncertai
 
 The primary metric is the **out-of-sample MSE on the 20% test set**, computed on predicted vs. actual closing prices in ₹. As a secondary metric we report **directional accuracy** — the fraction of test firms for which the model correctly predicts whether the price went up or down over the year.
 
+`outputs/primary_metric.json` is the sole grading artifact. It contains `test_mse` as `metric_name`, the baseline MSE as `threshold`, and a `passed` boolean. `outputs/baseline_metric.json` records the persistence baseline separately.
+
 ---
 
 ## 3. Exact Prediction Task
@@ -56,7 +58,7 @@ Given the following inputs, observed at time *t−1* (approximately May 2025):
 
 **Predict:** the closing price of each firm at time *t* (approximately May 2026), i.e., `target_price`.
 
-Four models are trained and compared: Ridge Regression, Random Forest, Gradient Boosting, and a Neural Network (with XGBoost + SHAP for feature importance). The best-performing model on the held-out test set is reported as the primary result. All technical signals are constructed strictly from data prior to `current_price` to avoid look-ahead bias.
+Four models are trained and compared: Ridge Regression, Random Forest, Gradient Boosting, and XGBoost (with SHAP for feature importance). The best-performing model on the held-out test set is reported as the primary result. All technical signals are constructed strictly from data prior to `current_price` to avoid look-ahead bias.
 
 ---
 
@@ -64,24 +66,24 @@ Four models are trained and compared: Ridge Regression, Random Forest, Gradient 
 
 The project is considered successful if:
 
-The best-performing ML model achieves a lower out-of-sample test MSE than the naive persistence baseline on the same held-out test set.
-The model achieves directional accuracy of at least 60% on the held-out test set.
+1. The best-performing ML model achieves a lower out-of-sample test MSE than the naive persistence baseline on the same held-out test set.
+2. The model achieves directional accuracy of at least 60% on the held-out test set.
 
-Portfolio analysis (Sharpe ratio, benchmark comparison, and Top-15 portfolio evaluation) is reported only as an additional exploratory analysis and is not used as the primary grading metric.
+**The single primary metric for grading is `test_mse`, recorded in `outputs/primary_metric.json`.** The project passes if `best_model_mse < baseline_mse` (the `passed` boolean in that file).
+
+Portfolio analysis (Sharpe ratio, benchmark comparison, and Top-15 portfolio evaluation) is reported as supplementary exploratory output only and plays **no role** in the pass/fail grading decision. It is not used as a primary or secondary grading metric under any circumstance.
 
 Results are saved to:
 
-outputs/primary_metric.json — Model test MSE, baseline MSE threshold, and pass/fail indicator
-outputs/baseline_metric.json — baseline persistence MSE
+- `outputs/primary_metric.json` — Model test MSE, baseline MSE threshold, and pass/fail indicator
+- `outputs/baseline_metric.json` — Baseline persistence MSE
+- `outputs/milestone_manifest.json` — Data source status and run metadata
+
+---
 
 ## 5. Baseline to Beat
 
 **Naive Persistence:** For every firm in the test set, predict that the 1-year-forward price equals the closing price observed exactly 365 days earlier:
-
-```
-predicted_price = current_price
-```
-
 This is the standard no-information benchmark in equity price forecasting. Based on the cross-section of ~90 NSE large-caps over May 2025–May 2026, the baseline MSE will be non-trivial given the wide price range across the sample (roughly ₹150 to ₹35,000), and substantial variation in 1-year returns across sectors (Energy, Technology, Finance, Consumer, etc.).
 
 The baseline MSE is computed on the **same 20% held-out test set** as the model MSE, and is always reported first for transparency.
@@ -95,7 +97,7 @@ Among NSE large-cap equities, a model trained on 21 features (financial fundamen
 1. Forecast 1-year-forward closing prices with a **lower out-of-sample MSE** than the naive persistence benchmark on the held-out test set of ~18 firms; **and**
 2. Correctly predict the **direction of price movement** (up or down) for at least **60%** of firms in the held-out test set.
 
-Directional accuracy is reported as a secondary evaluation metric alongside test MSE.
+Directional accuracy is reported as a secondary evaluation metric alongside test MSE. Pass/fail is determined solely by condition 1 via `outputs/primary_metric.json`.
 
 ---
 
@@ -107,7 +109,7 @@ Directional accuracy is reported as a secondary evaluation metric alongside test
 - Licence: Yahoo Finance data is publicly available for personal and academic non-commercial use. No login required. No scraping — `yfinance` uses the official Yahoo Finance query API.
 - Access method: Direct API call via Python; no authentication needed; no rate-limit issues at 90-ticker scale.
 
-**Data fetched per ticker (Cell 3 of notebook):**
+**Data fetched per ticker:**
 
 - `current_price`: closing price from 365 days ago via `yf.download()` (used as the main predictor)
 - `target_price`: closing price today via `yf.download()` (ground truth outcome)
@@ -142,8 +144,8 @@ If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fal
 - Prediction horizon: exactly 1 year (365 days), fixed
 - Period: closing price at May 2025 → closing price at May 2026
 - Sectors covered: Energy, Technology, Finance, Consumer, Automobile, Healthcare, Chemicals, Metals, Real Estate, Textiles, Retail, Defense
-- Models: Ridge Regression, Random Forest, Gradient Boosting, Neural Network, XGBoost (with SHAP feature importance)
-- Portfolio construction and backtest: Top-15 composite-score portfolio vs. equal-weight benchmark (Sharpe ratio, Information Ratio, Max Drawdown reported)
+- Models: Ridge Regression, Random Forest, Gradient Boosting, XGBoost (with SHAP feature importance)
+- Portfolio construction and backtest: Top-15 composite-score portfolio vs. equal-weight benchmark (Sharpe ratio, Information Ratio, Max Drawdown reported as supplementary only)
 
 **Out of scope:**
 - No causal inference; analysis is purely predictive and associational
@@ -172,8 +174,11 @@ If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fal
 ## 10. Reproducibility Checklist
 
 - [x] `uv run main.py` runs end-to-end in under 10 minutes on a clean machine with no manual intervention.
+- [x] All dependencies are declared in `pyproject.toml`; `main.py` contains no shell or notebook commands (no `!pip install` or any `!` prefixed lines).
+- [x] `main.py` is plain Python and serves as the single entry point — no Jupyter/Colab-specific syntax anywhere in the file.
 - [x] It writes `outputs/primary_metric.json` containing `{"metric_name": "test_mse", "value": <number>, "threshold": <baseline_mse>, "passed": <bool>}`.
 - [x] It writes `outputs/baseline_metric.json` in the same shape with `"metric_name": "baseline_mse"`.
+- [x] It writes `outputs/milestone_manifest.json` confirming data source status and run metadata.
 - [x] A `README.md` documents the commands and expected outputs in ≤ 20 lines.
 - [x] All data is fetched in-script via `yfinance`; synthetic fallback is triggered automatically if live data is unavailable.
 - [x] A `data/probe_output.txt` is written on every run confirming Yahoo Finance access (or fallback activation).
@@ -182,6 +187,6 @@ If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fal
 
 ## Sign-off
 
-By submitting this charter, the team agrees that this is the plan the project will be graded against. The instructor will not penalise just because the topic turns out to be difficult, as long as the project stays honest and within the approved scope.
+*Signed:* Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
 
 *Signed:* Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
