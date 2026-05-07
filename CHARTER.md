@@ -83,8 +83,9 @@ Results are saved to:
 
 ## 5. Baseline to Beat
 
-**Naive Persistence:** For every firm in the test set, predict that the 1-year-forward price equals the closing price observed exactly 365 days earlier:
+**Naive Persistence:** For every firm in the test set, predict that the 1-year-forward price equals the closing price observed exactly 365 days earlier: predicted_price = current_price
 This is the standard no-information benchmark in equity price forecasting. Based on the cross-section of ~90 NSE large-caps over May 2025–May 2026, the baseline MSE will be non-trivial given the wide price range across the sample (roughly ₹150 to ₹35,000), and substantial variation in 1-year returns across sectors (Energy, Technology, Finance, Consumer, etc.).
+
 
 The baseline MSE is computed on the **same 20% held-out test set** as the model MSE, and is always reported first for transparency.
 
@@ -186,7 +187,5 @@ If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fal
 ---
 
 ## Sign-off
-
-*Signed:* Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
 
 *Signed:* Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
