@@ -1,9 +1,7 @@
 {
-    "model_name": "Baseline (Naive Persistence)",
-    "description": "Predicts next-year price equals current price.",
-    "test_set_size": 18,
-    "mse": 5425582.2066,
-    "r2": 0.9204,
-    "directional_acc_pct": 77.78,
-    "notes": "Baseline benchmark used as minimum threshold."
+  "metric_name": "baseline_mse",
+  "value": 5425582.2066,
+  "unit": "INR_squared",
+  "notes": "Naive persistence baseline model: predict next-year stock price equals current stock price.",
+  "is_template": false
 }
