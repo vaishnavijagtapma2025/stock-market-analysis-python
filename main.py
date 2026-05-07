@@ -726,6 +726,91 @@ dir_all = (results["Direction"]=="✅").mean()*100
 print(f"\nDirectional accuracy (all firms): {dir_all:.1f}%")
 
 # ============================================================
+# CREATE REAL SOURCE PROBE FILE
+# ============================================================
+
+import os
+import json
+import yfinance as yf
+import pandas as pd
+
+# ------------------------------------------------------------
+# CREATE FOLDER
+# ------------------------------------------------------------
+
+os.makedirs("outputs/source_probes", exist_ok=True)
+
+# ------------------------------------------------------------
+# FETCH SAMPLE DATA
+# ------------------------------------------------------------
+
+ticker = "RELIANCE.NS"
+
+stock = yf.Ticker(ticker)
+
+hist = stock.history(period="5d")
+
+# Take one sample row
+sample_row = hist.reset_index().iloc[0].to_dict()
+
+# Convert non-serializable values
+sample_row = {
+    k: str(v) if "Timestamp" in str(type(v))
+    else float(v) if isinstance(v, (int, float))
+    else str(v)
+    for k, v in sample_row.items()
+}
+
+# ------------------------------------------------------------
+# CREATE PROBE CONTENT
+# ------------------------------------------------------------
+
+probe_text = f"""
+# Source Probe
+
+## Source name
+Yahoo Finance NSE Stock Data
+
+## Access method
+Python yfinance API
+
+## URL or endpoint
+https://finance.yahoo.com/
+
+## One-row proof
+
+{json.dumps(sample_row, indent=2)}
+
+## Notes
+
+Successfully fetched live NSE stock data using the yfinance package.
+This confirms that the source is reachable and working correctly.
+"""
+
+# ------------------------------------------------------------
+# WRITE MARKDOWN FILE
+# ------------------------------------------------------------
+
+with open("outputs/source_probes/yfinance_probe.md", "w") as f:
+    f.write(probe_text)
+
+# ------------------------------------------------------------
+# PRINT RESULT
+# ------------------------------------------------------------
+
+print("✅ Source probe created successfully!\n")
+
+print(probe_text)
+
+# ------------------------------------------------------------
+# DOWNLOAD FILE (GOOGLE COLAB)
+# ------------------------------------------------------------
+
+from google.colab import files
+
+files.download("outputs/source_probes/yfinance_probe.md")
+
+# ============================================================
 # ECO6810 — COMPLETE MILESTONE OUTPUT GENERATOR
 # ============================================================
 
@@ -1011,8 +1096,6 @@ files.download("outputs/source_probes/yfinance_probe.md")
 
 print("\n✅ All milestone files generated successfully!")
 print("📁 Files saved in outputs/")
-
-
 
 
 
