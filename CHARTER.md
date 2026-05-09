@@ -16,15 +16,6 @@ This project presents a data-driven analysis and prediction of stock prices for 
 
 ---
 
-| Field | Value |
-|---|---|
-| Team members | Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid |
-| Project type | Predictive |
-| Estimated hours per person | 50 |
-| Charter version | v4 |
-| Date | 2026-05-09 |
-
----
 
 ## Team Roles
 
