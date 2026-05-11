@@ -38,7 +38,9 @@ Both thresholds must be met for the project to be declared successful.
 All data were retrieved via the Python yfinance library, which wraps Yahoo Finance's public REST API. No paid data vendor, proprietary terminal, or web scraper was used.
 
 •	Universe: ~91 NSE large-cap tickers across 12 GICS-aligned sectors (Energy, Technology, Finance, Consumer, Automobile, Healthcare, Chemicals, Metals, Real Estate, Textiles, Retail, Defense).
+
 •	current_price (t−1): Adjusted closing price approximately 365 days before the run date, fetched via a one-week window around PUBLISH_DATE.
+
 •	target_price (t): Most recent adjusted closing price at run time, fetched via a 5-day trailing window representing the realised 1-year-ahead price.
 •	Technical history: 2-year quarterly OHLCV series (interval='3mo') ending at PUBLISH_DATE, used solely for momentum and SMA construction strictly prior to current_price to eliminate look-ahead bias.
 •	Fundamentals: 17 firm-level accounting and valuation fields drawn from yf.Ticker().info (P/E, ROE, ROA, profit margin, revenue growth, earnings growth, debt-to-equity, current ratio, beta, book value, P/B, dividend yield, EPS, EBITDA margin, market cap).
