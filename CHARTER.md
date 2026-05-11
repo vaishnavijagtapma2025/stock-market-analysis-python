@@ -21,8 +21,8 @@ This project presents a data-driven analysis and prediction of stock prices for 
 
 | Team Member | Primary Role | Responsibilities |
 |---|---|---|
-| **Anushmitaa Ghosh** | Charter & Pipeline Lead & Code Lead| Project charter authoring and all revisions (`CHARTER.md`); defining the research question, hypothesis, and scope limits; `pyproject.toml` dependency management; `main.py` pipeline integration and end-to-end testing; synthetic fallback design; outputs folder structure and reproducibility checks |
-| **Vaishnavi Jagtap** | Modelling & Repository Lead & Code Lead| Repository setup, branching, and version control; `main.py` model implementation (Ridge Regression, Random Forest, Gradient Boosting, XGBoost); hyperparameter tuning; SHAP feature importance analysis; `pyproject.toml` updates; `README.md` documentation; overall code quality and review |
+| **Anushmitaa Ghosh** | Charter & Pipeline Lead & Code Lead| Project charter authoring and all revisions (`CHARTER.md`); defining the research question, hypothesis, and scope limits; `pyproject.toml` dependency management; `main.py` pipeline integration and end-to-end testing; synthetic fallback design; outputs folder structure and reproducibility checks, report.md|
+| **Vaishnavi Jagtap** | Modelling & Repository Lead & Code Lead| Repository setup, branching, and version control; `main.py` model implementation (Ridge Regression, Random Forest, Gradient Boosting, XGBoost); hyperparameter tuning; SHAP feature importance analysis; `pyproject.toml` updates; `README.md` documentation; overall code quality and review, AI_USAGE_LOG.md|
 | **Anushka Bid** | Evaluation & Data Lead and Data Probe & Code Lead | `main.py` evaluation logic and metric computation; writing `primary_metric.json`, `baseline_metric.json`, and `milestone_manifest.json`; directional accuracy calculation; data file management and `probe_output.txt`; baseline persistence benchmark implementation; portfolio analysis (Sharpe ratio, Information Ratio, Max Drawdown) |
 
 All three members jointly contribute to writing, review, and final submission.
