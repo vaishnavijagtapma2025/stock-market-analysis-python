@@ -58,6 +58,7 @@ All data were retrieved via the Python yfinance library, which wraps Yahoo Finan
 A synthetic fallback was coded to activate automatically if fewer than 20 tickers were fetched live (e.g., due to API rate-limiting). Under the fallback, 91 synthetic firms are generated from sector-specific return and fundamental distributions calibrated to historical Indian equity averages (NumPy default_rng seed = 42). The fallback flag is logged in SYNTHETIC_USED and written to data/probe_output.txt and outputs/source_probes/yfinance_probe.md, so reviewers can verify which data path was executed.
 
 3.3  Data Quality Steps
+
 •	Rows with missing target_price or current_price are dropped before any modelling.
 
 •	All remaining numeric NaNs are imputed with the column median — a conservative choice that avoids mean distortion from outlier fundamental values common in Indian equities (e.g., extreme PE ratios in loss-making firms).
