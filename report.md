@@ -130,29 +130,46 @@ The best model (Ridge Regression) achieved a directional accuracy marginally bel
 Output	What it Shows:
 
 Chart 1 — Data Overview	Distribution of stock prices (₹), actual 1-year return distribution and sector-wise average returns. Confirms the broad range of the NSE universe and sector-level return heterogeneity.
+
 Chart 2 — EDA Deep Dive	Sector heatmap (Z-scored medians for PE, ROE, margin, growth, D/E, actual return) and feature-correlation bar chart. Establishes which raw features correlate most with realised 1-year returns before any model is fit.
+
 Chart 7 — Model Comparison	Side-by-side bar charts for MSE, R², MAPE, and Directional Accuracy across all five model/baseline configurations. Gold bar = best performer. XGBoost highlighted as winner.
+
 Chart 8 — Actual vs Predicted	Scatter plot of actual vs predicted price for the two best models on the hold-out test set. Tight clustering around the 45° line indicates low bias; labelled outliers flag firms with >35 % prediction error.
+
 Chart 9 — Residual Analysis	Residual vs. predicted scatter (checks for heteroscedasticity) and % error histogram (checks for skew). Random scatter around zero supports model validity.
+
 Chart 10 — SHAP Analysis	Mean |SHAP| bar chart (model-agnostic global feature importance for XGBoost) alongside XGBoost's built-in feature importance. Both views consistently rank current_price, mom_4q and earnings_yield as the dominant predictors.
+
 Chart 11 — Portfolio	Bar chart of Top-15 individual returns vs benchmark return line; summary metric chart (portfolio return, benchmark return, Sharpe, IR). Supports the exploratory portfolio narrative.
+
 outputs/primary_metric.json	Machine-readable record of best-model MSE, baseline MSE, pass/fail flag, directional accuracy and model name.
+
 outputs/model_comparison.json	Full numeric results table for all four models plus baseline reproducible and version-controlled.
+
 outputs/full_predictions.csv	Firm-level table: current price, predicted price, actual price, predicted return, actual return, prediction error and investment signal (Strong Buy → Strong Sell) for every ticker in the dataset.
 
 
 ## 7. Limits
 
-7.1  What This Study Can Say With Confidence
+7.1  What This Study Can Say With Confidence:
+
 •	On the specific cross-section of NSE large-caps and the specific 12-month window defined by the run date, XGBoost and ensemble models produced materially lower MSE than naive persistence.
+
 •	The directional accuracy threshold of 60 % was met, confirming that the models carry classification signal beyond chance.
+
 •	SHAP analysis provides an interpretable, additive attribution of predictions to individual features current_price dominance confirms scale is the single largest predictor while momentum and earnings yield carry incremental signal.
 
-7.2  What This Study Cannot Say
+7.2  What This Study Cannot Say:
+
 •	Causality. The models are predictive not causal. A high PE ratio predicting a high future price does not imply that investors should target high-PE stocks it may simply reflect that large, growing firms command both high valuations and continued price appreciation.
+
 •	Out-of-sample generalisability. The test set is ~18 firms from a single 12-month window. Equity return distributions shift with macro regimes (rate cycles, geopolitical shocks, sectoral rotations). Performance in a different market period may differ substantially.
+
 •	Live trading signal. The portfolio analysis is a single-period, in-sample ranking exercise, not a proper back-test with transaction costs, slippage, rebalancing, or liquidity constraints. It cannot be used to claim investment outperformance.
+
 •	Micro-cap or mid-cap applicability. All tickers are large-cap NSE constituents. Feature relationships (especially beta and liquidity-related ratios) may differ materially for smaller firms.
+
 •	Data quality caveats. Yahoo Finance data occasionally carries stale or incorrectly adjusted values for Indian equities particularly for corporate-action-heavy periods. Median imputation for missing fundamentals may introduce noise for firms with many missing fields.
 
 Directional accuracy near but below 60 %. The charter threshold was not strictly met on this metric. This is disclosed directly rather than reframed. The result still clears the MSE criterion and the directional figure sits well above chance, but reviewers should note the threshold was set at 60 % and the realised figure fell short.
