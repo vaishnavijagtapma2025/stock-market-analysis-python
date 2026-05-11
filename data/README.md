@@ -1,4 +1,4 @@
-# Data Folder — Indian Equity Price Predictor (ECO 6810)
+# Data Folder — Indian Equity Price Predictor 
 
 This folder contains the processed datasets and generated outputs used in the Indian Equity Price Predictor project.
 
