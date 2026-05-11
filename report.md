@@ -130,9 +130,6 @@ Across the ~91 NSE large-cap firms in our sample, XGBoost consistently assigned 
 
 The best model (Ridge Regression) achieved a directional accuracy marginally below the 60 % charter threshold — in the range of 55–59 %. While this technically does not clear the hard threshold, it is meaningfully above the 50 % random-chance baseline, indicating the model carries genuine directional signal. The shortfall is consistent with the known difficulty of classifying NSE large-cap price direction at a 1-year horizon: at this frequency, firm-level fundamentals and momentum are partially overwhelmed by macro shocks — FII flows, RBI policy pivots, global risk-off events that are not captured in the feature set. A directional accuracy in the 55–65 % range is the realistic expectation for a fundamental-heavy cross-sectional model on Indian equities.
 
-## 6. Evidence
-
-Output	What it Shows:
 
  # Section 6 — Evidence and Interpretation of All Generated Outputs
 
