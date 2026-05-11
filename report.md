@@ -114,10 +114,15 @@ A Top-15 portfolio was constructed by ranking all firms on the XGBoost predicted
 Metric	Value:
 
 Best model:	Ridge Regression (lowest MSE and strongest overall generalisation performance)
+
 Primary metric — MSE	Best-model MSE < Naive Persistence MSE  →  ✅ PASSED
+
 Threshold	Best-model MSE must be strictly < baseline MSE
+
 Directional Accuracy	~55–59 %  →  ⚠ Marginally below charter threshold
+
 Dir. Accuracy threshold	60 %
+
 Overall verdict   Primary prediction threshold MET; directional threshold narrowly missed
 
 In plain English:
