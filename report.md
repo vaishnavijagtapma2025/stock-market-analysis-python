@@ -129,25 +129,110 @@ The best model (Ridge Regression) achieved a directional accuracy marginally bel
 
 Output	What it Shows:
 
-Chart 1 — Data Overview	Distribution of stock prices (₹), actual 1-year return distribution and sector-wise average returns. Confirms the broad range of the NSE universe and sector-level return heterogeneity.
+ # Section 6 — Evidence and Interpretation of All Generated Outputs
 
-Chart 2 — EDA Deep Dive	Sector heatmap (Z-scored medians for PE, ROE, margin, growth, D/E, actual return) and feature-correlation bar chart. Establishes which raw features correlate most with realised 1-year returns before any model is fit.
+## Chart 1 — Data Overview
 
-Chart 7 — Model Comparison	Side-by-side bar charts for MSE, R², MAPE, and Directional Accuracy across all five model/baseline configurations. Gold bar = best performer. XGBoost highlighted as winner.
+Chart 1 provides the foundational descriptive overview of the dataset prior to any predictive modelling. The stock-price distribution highlights the substantial heterogeneity within the NSE large-cap universe, with prices ranging from relatively low three-digit values to several thousand rupees per share. This wide dispersion economically justifies the use of scale-adjusted metrics such as MAPE and motivates transformations such as `log_market_cap` during feature engineering. The return-distribution histogram demonstrates that realised 1-year returns are centred around moderate positive values but exhibit visible fat tails on both sides, indicating the simultaneous presence of strong outperformers and severe underperformers within the same market environment.
+The sector-wise return comparison reveals meaningful heterogeneity across industries. Certain sectors display systematically higher realised returns than others, suggesting that sector structure itself carries predictive information. This finding provides economic justification for the inclusion of sector-relative variables such as `sector_median_pe`, `relative_pe`, `sector_avg_margin`, and `sector_avg_growth` in the modelling pipeline. Overall, the chart confirms that the dataset contains sufficient variation in both prices and returns for machine-learning models to potentially extract meaningful signal.
 
-Chart 8 — Actual vs Predicted	Scatter plot of actual vs predicted price for the two best models on the hold-out test set. Tight clustering around the 45° line indicates low bias; labelled outliers flag firms with >35 % prediction error.
+---
+## Chart 2 — EDA Deep Dive
 
-Chart 9 — Residual Analysis	Residual vs. predicted scatter (checks for heteroscedasticity) and % error histogram (checks for skew). Random scatter around zero supports model validity.
+The sector heatmap standardises key accounting and valuation variables using Z-scored medians, enabling direct comparison across industries with otherwise incomparable raw scales. The figure demonstrates that sectors differ systematically across profitability, leverage, growth, and valuation characteristics. Technology and consumer-oriented firms generally exhibit higher growth and richer valuation multiples, while sectors such as metals and energy display greater volatility in profitability and leverage metrics.
+The feature-correlation analysis provides preliminary evidence regarding which variables may contain predictive signal before model fitting begins. Momentum indicators, profitability measures, earnings yield, and relative valuation metrics show stronger association with realised future returns than purely accounting-scale variables. Importantly, no single feature dominates perfectly, implying that the prediction task requires combining multiple weak signals rather than relying on one deterministic driver. This economically supports the use of ensemble machine-learning methods capable of modelling complex interactions between variables.
 
-Chart 10 — SHAP Analysis	Mean |SHAP| bar chart (model-agnostic global feature importance for XGBoost) alongside XGBoost's built-in feature importance. Both views consistently rank current_price, mom_4q and earnings_yield as the dominant predictors.
+---
+## Chart 3 — Price Distribution and Sector Boxplots
 
-Chart 11 — Portfolio	Bar chart of Top-15 individual returns vs benchmark return line; summary metric chart (portfolio return, benchmark return, Sharpe, IR). Supports the exploratory portfolio narrative.
+The price-distribution visualisation demonstrates the strong right-skewness characteristic of equity-price datasets. A relatively small number of very high-priced firms coexist alongside a larger number of moderately priced firms, creating substantial scale imbalance across the universe. This justifies the use of logarithmic transformations and regularisation methods to stabilise estimation.
+The sector-wise boxplots further reveal that dispersion differs materially across industries. Some sectors display tightly clustered price ranges, indicating relatively homogeneous firm structures, while others exhibit extreme intra-sector variation. The existence of large interquartile spreads and visible outliers reinforces the economic reality that Indian large-cap firms operate under highly differentiated business models and valuation regimes.
+From a modelling perspective, this heterogeneity increases the difficulty of predicting future prices using a single global specification and provides additional justification for sector-relative feature engineering.
 
-outputs/primary_metric.json	Machine-readable record of best-model MSE, baseline MSE, pass/fail flag, directional accuracy and model name.
+---
+## Chart 4 — Correlation Matrix
 
-outputs/model_comparison.json	Full numeric results table for all four models plus baseline reproducible and version-controlled.
+The correlation matrix visualises the linear relationships among major explanatory variables and between features and the target variable. The chart highlights moderate relationships between profitability, growth, and valuation measures while also showing that many variables contribute distinct information.
+The absence of excessively high pairwise correlations among most engineered features suggests that severe multicollinearity is limited after the introduction of transformations such as earnings yield and PEG proxy. This is particularly important for Ridge Regression, whose regularisation mechanism performs best when explanatory variables contain partially overlapping but not perfectly redundant information.
+Economically, the matrix confirms that future stock prices are influenced by a combination of valuation, growth, leverage, and momentum variables rather than by a single dominant accounting ratio.
 
-outputs/full_predictions.csv	Firm-level table: current price, predicted price, actual price, predicted return, actual return, prediction error and investment signal (Strong Buy → Strong Sell) for every ticker in the dataset.
+---
+## Chart 5 — Baseline vs Machine-Learning Models
+
+This chart provides the central empirical comparison between the naive persistence benchmark and the machine-learning models. The figure demonstrates that all predictive models outperform the baseline on Mean Squared Error, indicating that publicly available financial and market information contains signal beyond the assumption that stock prices simply remain unchanged.
+Ridge Regression achieves the strongest overall out-of-sample performance, suggesting that a regularised linear specification generalises more effectively than highly flexible ensemble methods within a relatively small cross-sectional dataset. This finding is economically meaningful because it implies that the relationship between fundamentals, momentum and future prices is sufficiently stable that additional model complexity does not necessarily improve generalisation.
+The directional-accuracy comparison shows that the models consistently exceed the 50 % random baseline but remain near the 60 % charter threshold. This result aligns with broader empirical finance literature which shows that predicting exact price levels is generally easier than consistently predicting the sign of future returns over long horizons.
+
+---
+## Chart 6 — Actual vs Predicted Prices
+
+The actual-versus-predicted scatterplots assess how closely the fitted models reproduce realised stock-price outcomes on the hold-out test set. The concentration of observations around the 45-degree reference line indicates that the models capture the broad scaling relationship between current and future price levels without severe systematic bias.
+The remaining outliers correspond to firms whose realised returns diverged substantially from model expectations. Economically, these deviations likely reflect firm-specific shocks, earnings surprises, macroeconomic developments, or market sentiment changes not captured within the available feature set. Importantly, the outliers appear on both sides of the reference line, suggesting that the models do not systematically overpredict or underpredict prices.
+The comparatively tighter clustering achieved by Ridge Regression reinforces the conclusion that the regularised linear model produced the strongest generalisation performance under the primary metric.
+
+---
+## Chart 7 — Residual Analysis
+
+The residual diagnostics evaluate whether the fitted models violate major statistical assumptions or exhibit obvious specification problems. The residual-versus-predicted scatterplot shows that prediction errors remain broadly distributed around zero without a strong deterministic structure, indicating that the models captured most systematic relationships present in the data.
+Some heteroscedasticity remains visible at higher predicted price levels, which is expected in equity datasets because larger firms naturally generate larger absolute rupee deviations. The percentage-error histogram remains approximately centred near zero, suggesting that the models do not consistently overestimate or underestimate future prices across the sample.
+The existence of wider tails in the error distribution reflects genuine market uncertainty rather than clear model failure. Equity prices are inherently influenced by unpredictable macroeconomic and behavioural shocks, meaning that some level of residual volatility is unavoidable even under well-specified models.
+
+---
+## Chart 8 — SHAP Feature Importance
+
+The SHAP analysis provides interpretability for the XGBoost model by decomposing predictions into additive feature-level contributions. Although Ridge Regression achieved the best overall predictive performance, SHAP remains valuable because tree-based models provide a richer framework for identifying non-linear interactions across features.
+The mean absolute SHAP values indicate that `current_price` is the most influential predictor in the model. This result is economically intuitive because equity prices exhibit strong persistence over annual horizons, making the current price level a natural anchor for future expectations.
+Momentum variables such as `mom_4q` and valuation measures such as `earnings_yield` also rank highly, indicating that both market-trend information and relative valuation metrics contribute incremental predictive signal beyond simple persistence. The consistency between SHAP importance and XGBoost's built-in feature-importance rankings strengthens confidence that the identified predictors represent economically meaningful drivers rather than statistical artefacts.
+
+---
+## Chart 9 — Portfolio Performance Analysis
+
+The portfolio-performance chart evaluates the exploratory Top-15 portfolio constructed using predicted returns from the machine-learning ranking system. Several selected firms substantially outperform the equal-weight benchmark during the evaluation period, suggesting that the model captures meaningful cross-sectional variation in expected returns.
+The Sharpe Ratio and Information Ratio provide evidence regarding the efficiency of returns relative to volatility and benchmark tracking error. Positive risk-adjusted metrics imply that the ranking framework contains economically useful information rather than pure statistical noise.
+However the portfolio exercise remains exploratory rather than investable. The analysis is based on a single evaluation window and excludes transaction costs, slippage, liquidity constraints, taxation and dynamic rebalancing. Consequently the chart should be interpreted as evidence of ranking capability rather than proof of deployable investment alpha.
+
+---
+## Neural Network Training Curves
+
+The neural-network training curves plot training loss and validation loss across epochs, allowing assessment of convergence behaviour and overfitting risk. The decline in training loss confirms that the neural network successfully learned patterns from the feature space, while the behaviour of validation loss provides evidence regarding generalisation.
+Where validation loss stabilises or begins increasing while training loss continues falling, the model begins memorising idiosyncratic patterns in the training sample rather than learning generalisable relationships. The use of dropout, early stopping and learning-rate reduction mechanisms was specifically intended to mitigate this risk.
+The comparatively weaker performance of the neural network relative to Ridge Regression suggests that highly flexible architectures may not perform optimally on relatively small cross-sectional financial datasets with limited observations.
+
+---
+## Full Predictions Table (`full_predictions.csv`)
+
+The prediction table constitutes the most granular evidentiary output of the project because it reports realised and predicted values for every firm individually. The table enables direct inspection of which stocks the model predicted accurately and which firms generated substantial forecast errors.
+The inclusion of predicted return, actual return, directional correctness and investment-signal labels provides a bridge between purely statistical evaluation and practical financial interpretation. The table also reveals that prediction quality varies materially across firms and sectors suggesting that some industries are inherently more predictable than others.
+From an academic perspective the table increases transparency because reviewers can independently verify whether aggregate metrics such as MSE and directional accuracy are driven by broad consistency or by a small number of unusually successful predictions.
+
+---
+
+## `model_comparison.json`
+
+The machine-readable model-comparison output provides a reproducible numerical summary of all evaluation metrics across the baseline and machine-learning models. The JSON structure ensures that the results can be independently reproduced, validated and integrated into automated evaluation pipelines.
+The file also reinforces methodological transparency by preventing selective reporting of only favourable metrics. All models are evaluated under the same hold-out framework, allowing direct comparison of predictive performance.
+
+---
+## `primary_metric.json`
+
+The `primary_metric.json` output operationalises the central charter criterion by storing the best-model MSE, baseline MSE, pass/fail indicator, directional accuracy and winning model name in a standardised schema.
+This file functions as the formal decision record of the project. It translates the statistical evaluation into a falsifiable outcome that can be audited independently from the notebook narrative.
+
+---
+## `baseline_metric.json`
+
+The baseline-metric output records the performance of the naive persistence benchmark which predicts that future prices remain unchanged from their current levels. Including this file is methodologically important because predictive models are only meaningful if they outperform a defensible null benchmark.
+The baseline establishes the minimum standard that any machine-learning model must exceed in order to claim incremental predictive value.
+
+---
+## `milestone_manifest.json` and Probe Outputs
+
+The manifest and probe files support reproducibility and data-source verification. The probe output confirms whether live Yahoo Finance data or the synthetic fallback pipeline was used during execution while the manifest documents runtime configuration, output paths and evaluation status.
+
+These files increase the transparency and auditability of the project by ensuring that reviewers can trace the exact conditions under which results were generated. In a research context such reproducibility infrastructure is critical for distinguishing rigorous empirical workflows from purely illustrative demonstrations.
+
+
+
 
 
 ## 7. Limits
