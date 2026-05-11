@@ -42,17 +42,21 @@ All data were retrieved via the Python yfinance library, which wraps Yahoo Finan
 •	current_price (t−1): Adjusted closing price approximately 365 days before the run date, fetched via a one-week window around PUBLISH_DATE.
 
 •	target_price (t): Most recent adjusted closing price at run time, fetched via a 5-day trailing window representing the realised 1-year-ahead price.
+
 •	Technical history: 2-year quarterly OHLCV series (interval='3mo') ending at PUBLISH_DATE, used solely for momentum and SMA construction strictly prior to current_price to eliminate look-ahead bias.
+
 •	Fundamentals: 17 firm-level accounting and valuation fields drawn from yf.Ticker().info (P/E, ROE, ROA, profit margin, revenue growth, earnings growth, debt-to-equity, current ratio, beta, book value, P/B, dividend yield, EPS, EBITDA margin, market cap).
 
 3.2  Fallback Protocol
+
 A synthetic fallback was coded to activate automatically if fewer than 20 tickers were fetched live (e.g., due to API rate-limiting). Under the fallback, 91 synthetic firms are generated from sector-specific return and fundamental distributions calibrated to historical Indian equity averages (NumPy default_rng seed = 42). The fallback flag is logged in SYNTHETIC_USED and written to data/probe_output.txt and outputs/source_probes/yfinance_probe.md, so reviewers can verify which data path was executed.
 
 3.3  Data Quality Steps
 •	Rows with missing target_price or current_price are dropped before any modelling.
-•	All remaining numeric NaNs are imputed with the column median — a conservative choice that avoids mean distortion from outlier fundamental values common in Indian equities (e.g., extreme PE ratios in loss-making firms).
-•	All price-series technical indicators are computed exclusively from data dated prior to current_price (no future leakage into the feature set).
 
+•	All remaining numeric NaNs are imputed with the column median — a conservative choice that avoids mean distortion from outlier fundamental values common in Indian equities (e.g., extreme PE ratios in loss-making firms).
+
+•	All price-series technical indicators are computed exclusively from data dated prior to current_price (no future leakage into the feature set).
 
 
 ## 4. Method
