@@ -68,9 +68,11 @@ A synthetic fallback was coded to activate automatically if fewer than 20 ticker
 ## 4. Method
 
 4.1  Baseline: Naive Persistence
+
 The baseline predicts that every firm's price one year from now will equal its price today  i.e., predicted_price = current_price for all test firms. This is the canonical persistence benchmark in cross-sectional equity forecasting. Its MSE exceeds any model that captures even a fraction of the return cross-section. Its directional accuracy is exactly 50 % in expectation (a coin flip), providing a meaningful lower bound for the 60 % threshold.
 
 4.2  Feature Engineering (26 Features)
+
 All features were constructed before any train/test split and use only information available at t−1. The full feature taxonomy:
 
 Category	Features
@@ -82,6 +84,7 @@ Anchor Predictor (1)	current_price — the t−1 closing price, ensuring scale c
 Two composite features — earnings yield (1 / PE, winsorised at ±2) and PEG proxy (PE / |earnings_growth × 100| + ε, winsorised at ±50) were engineered to reduce collinearity and provide scale-invariant valuation signals.
 
 4.3  Train / Test Split
+
 The dataset was sorted by Sector then Ticker alphabetically, ensuring a geographically and sector-representative spread across both partitions. An 80 / 20 split produced approximately 72 training firms and 18 test firms. All StandardScaler parameters were estimated exclusively on the training set and applied to the test set no information leakage.
 
 4.4  Models
