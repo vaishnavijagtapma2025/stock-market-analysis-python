@@ -271,11 +271,15 @@ The MSE criterion was met — Ridge Regression beat the naive persistence baseli
 
 ## 9. Reproducibility
 
-Field	Detail
-Notebook	Indian_Equity_Predictor_ECO6810_CLEAN.ipynb
-Run environment	Google Colab (Python 3.10+, GPU not required)
-Run command	Runtime → Run all  (or: Ctrl+F9 in Colab)
-Estimated runtime	~5–8 minutes with live yfinance fetch; ~2 minutes with synthetic fallback
+Field	Detail:
+
+Notebook:	Indian_Equity_Predictor_ECO6810_CLEAN.ipynb
+
+Run environment:	Google Colab (Python 3.10+, GPU not required)
+
+Run command: Runtime → Run all  (or: Ctrl+F9 in Colab)
+
+Estimated runtime:	~5–8 minutes with live yfinance fetch; ~2 minutes with synthetic fallback
 
 ## 10. AI Usage
 
