@@ -72,24 +72,33 @@ The fallback:
 - Preserves reproducibility using a fixed random seed
 - Ensures the project remains executable even if live API fetches fail
 
-The pipeline records this in:
+The pipeline records this information in:
+
 ```text
 data/probe_output.txt
-
-## Date Windows (computed at runtime)
-
 ```
+
+---
+
+## Date Windows (Computed at Runtime)
+
+```python
 TODAY        = datetime.today()
-PUBLISH_DATE = TODAY - 365 days   ← current_price start (t−1)
-PUBLISH_END  = TODAY - 358 days   ← current_price end (7-day window)
-TARGET_START = TODAY - 5 days     ← target_price start (t)
-TARGET_END   = TODAY + 1 day      ← target_price end
-HIST_START   = TODAY - 730 days   ← 2-year history start (technical signals only)
+PUBLISH_DATE = TODAY - 365 days   # current_price start (t−1)
+PUBLISH_END  = TODAY - 358 days   # current_price end (7-day window)
+
+TARGET_START = TODAY - 5 days     # target_price start (t)
+TARGET_END   = TODAY + 1 day      # target_price end
+
+HIST_START   = TODAY - 730 days   # 2-year history start (technical signals only)
 ```
 
-Because dates are computed dynamically from `datetime.today()`, re-running the notebook on a different date will fetch different prices. The structure of results is stable; exact MSE values will shift with market prices.
+Because these windows are generated dynamically using `datetime.today()`, rerunning the notebook on a different date will fetch updated market prices. While the structure of the dataset remains stable, exact model outputs and MSE values may vary with changing market conditions.
 
-### Historical Price Fetch
+---
+
+## Historical Price Fetch
+
 ```python
 hist_past = yf.download(
     ticker,
@@ -97,27 +106,40 @@ hist_past = yf.download(
     end=PUBLISH_END,
     progress=False
 )
-
+```
 
 ---
 
+## Data Fetching Method
+
 Data is fetched programmatically using:
+
 - `yf.download()` for historical stock prices
 - `yf.Ticker().info` for firm fundamentals
 
+---
+
 ## How to Re-fetch the Data
 
-No manual steps are needed. Run the notebook end-to-end:
+No manual steps are required.
 
-```
-Runtime → Run all   (Google Colab)
+### Google Colab
+
+```text
+Runtime → Run all
 ```
 
-or
+### Local Execution
 
-```
+```bash
 uv run main.py
 ```
 
-Cell 3 & 4 fetches everything automatically. If Yahoo Finance is unavailable or returns fewer than 20 valid tickers, the synthetic fallback activates and the run still completes cleanly.
+Cells 3 and 4 automatically:
 
+- Fetch live Yahoo Finance data
+- Generate financial and technical indicators
+- Create processed datasets
+- Write probe logs for verification
+
+If Yahoo Finance is unavailable or fewer than 20 valid tickers are returned, the synthetic fallback generator activates automatically so the pipeline still completes successfully.
