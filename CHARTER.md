@@ -149,6 +149,8 @@ print("PE Ratio:", ticker.info.get('trailingPE'))
 
 If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fallback** automatically (< 20 tickers fetched triggers synthetic data generation for all 90 firms using sector-level parameters). No manual intervention required.
 
+The main dataset is available in the data folder.
+
 ---
 
 ## 8. Scope Limits
