@@ -165,7 +165,7 @@ Four supervised regression models were trained and evaluated.
 
 ### Ridge Regression
 
-- - $\alpha = 10.0$
+-  $\alpha = 10.0$
 
 Linear regression with L2 regularisation operating on scaled features. Ridge provides interpretable coefficients and tests whether future prices are linearly predictable from publicly available information.
 
