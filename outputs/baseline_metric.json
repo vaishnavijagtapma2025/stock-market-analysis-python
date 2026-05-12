@@ -1,7 +1,7 @@
 {
   "metric_name": "baseline_mse",
-  "value": 5425582.2066,
+  "value": 6517364.8726,
   "unit": "INR_squared",
-  "notes": "Naive persistence baseline model: predict next-year stock price equals current stock price.",
+  "notes": "Naive persistence: predict target_price = current_price for all test firms.",
   "is_template": false
 }
