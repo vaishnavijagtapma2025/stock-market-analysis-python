@@ -374,8 +374,6 @@ However the portfolio exercise remains exploratory rather than investable. The a
 
 ## Full Predictions Table (`full_predictions.csv`)
 
-## Full Predictions Table (`full_predictions.csv`)
-
 The `full_predictions.csv` table provides the most granular evidentiary output of the project by reporting realised and predicted values for every firm individually. For each NSE large-cap stock, the table includes:
 
 - historical price (`Price_1yr_Ago`)
