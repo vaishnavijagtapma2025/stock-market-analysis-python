@@ -1518,35 +1518,6 @@ print("   outputs/chart6_shap_importance.png")
 print("   outputs/chart8_portfolio.png")
 
 
-# Cell 14 — Download All Output Files (Google Colab)
-
-from google.colab import files
-
-# ── Required JSON outputs ────────────────────────────────────────────────
-files.download("outputs/baseline_metric.json")
-files.download("outputs/primary_metric.json")
-files.download("outputs/milestone_manifest.json")
-
-# ── Additional outputs ───────────────────────────────────────────────────
-files.download("outputs/model_comparison.json")
-files.download("outputs/full_predictions.csv")
-files.download("outputs/source_probes/yfinance_probe.md")
-
-# ── Charts ───────────────────────────────────────────────────────────────
-files.download("outputs/chart1_data_overview.png")
-files.download("outputs/chart2_eda_deepdive.png")
-files.download("outputs/chart3_model_comparison.png")
-files.download("outputs/chart4_actual_vs_predicted.png")
-files.download("outputs/chart5_residuals.png")
-files.download("outputs/chart6_shap_importance.png")
-files.download("outputs/chart8_portfolio.png")
-
-print("✅ All files downloaded!")
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
