@@ -1516,8 +1516,3 @@ print("   outputs/chart4_actual_vs_predicted.png")
 print("   outputs/chart5_residuals.png")
 print("   outputs/chart6_shap_importance.png")
 print("   outputs/chart8_portfolio.png")
-
-
-
-if __name__ == "__main__":
-    main()
