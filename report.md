@@ -303,6 +303,7 @@ The return-distribution histogram shows that realised one-year returns are centr
 The sector-wise return comparison reveals meaningful heterogeneity across industries. Certain sectors display systematically higher realised returns than others, suggesting that sector structure itself carries predictive information. This provides economic justification for the inclusion of sector-relative variables such as `sector_median_pe`, `relative_pe`, `sector_avg_margin`, and `sector_avg_growth` within the modelling pipeline.
 
 Overall, the figure confirms that the dataset contains sufficient variation in both prices and returns for machine learning models to potentially extract meaningful predictive signal.
+
 ---
 ## Chart 2 — EDA Deep Dive
 
@@ -314,8 +315,7 @@ The feature-correlation analysis provides preliminary evidence regarding which v
 
 The price-distribution visualisation demonstrates the strong right-skewness characteristic of equity-price datasets. A relatively small number of very high-priced firms coexist alongside a larger number of moderately priced firms, creating substantial scale imbalance across the universe. This justifies the use of logarithmic transformations and regularisation methods to stabilise estimation.
 
-The sector-wise boxplots further reveal that dispersion differs materially across industries. Some sectors display tightly clustered price ranges, indicating relatively homogeneous firm structures, while others exhibit extreme intra-sector variation. The existence of large interquartile spreads and visible outliers reinforces the economic reality that Indian large-cap firms operate under highly differentiated business models and valuation regimes.
-From a modelling perspective, this heterogeneity increases the difficulty of predicting future prices using a single global specification and provides additional justification for sector-relative feature engineering.
+The sector-wise boxplots further reveal that dispersion differs materially across industries. Some sectors display tightly clustered price ranges, indicating relatively homogeneous firm structures, while others exhibit extreme intra-sector variation. The existence of large interquartile spreads and visible outliers reinforces the economic reality that Indian large-cap firms operate under highly differentiated business models and valuation regimes.From a modelling perspective, this heterogeneity increases the difficulty of predicting future prices using a single global specification and provides additional justification for sector-relative feature engineering.
 
 ---
 ## Chart 4 — Correlation Matrix
@@ -374,9 +374,21 @@ However the portfolio exercise remains exploratory rather than investable. The a
 
 ## Full Predictions Table (`full_predictions.csv`)
 
-The `full_predictions.csv` file provides the most granular evidentiary output of the project by reporting realised and predicted values for each individual firm in the sample. The table allows direct inspection of model performance at the stock level, including which firms were predicted accurately and which generated substantial forecast errors.
+## Full Predictions Table (`full_predictions.csv`)
 
-In addition to predicted and realised prices, the table includes predicted returns, actual returns, directional correctness, and investment-signal labels. This extends the analysis beyond purely statistical evaluation and provides a bridge between machine-learning outputs and practical financial interpretation.
+The `full_predictions.csv` table provides the most granular evidentiary output of the project by reporting realised and predicted values for every firm individually. For each NSE large-cap stock, the table includes:
+
+- historical price (`Price_1yr_Ago`)
+- realised current price (`Actual_Today`)
+- model-predicted future price (`Ridge_Predicted`)
+- actual and predicted returns
+- prediction error
+- directional correctness
+- suggested investment signal
+
+This output allows direct inspection of model performance at the stock level, including which firms were predicted accurately and which generated substantial forecast errors. Several automobile-sector firms such as EICHERMOT and MARUTI exhibit relatively accurate directional predictions and comparatively small forecast errors, while some consumer and chemical-sector firms display larger deviations between predicted and realised returns. These differences highlight the inherent difficulty of long-horizon equity forecasting and suggest that certain industries may be more predictable than others.
+
+The table extends the analysis beyond purely statistical evaluation by linking machine-learning outputs directly to economically interpretable investment signals and realised market outcomes. From a methodological perspective, this output improves transparency because reviewers can independently assess whether aggregate metrics such as MSE and directional accuracy reflect broad model consistency or are disproportionately influenced by a small number of highly successful predictions.
 
 The table also reveals that predictive performance varies materially across firms and sectors, suggesting that some industries are inherently more predictable than others. From a methodological perspective, this output increases transparency because reviewers can independently assess whether aggregate metrics such as MSE and directional accuracy reflect broad model consistency or are driven disproportionately by a small number of highly successful predictions.
 
@@ -389,26 +401,39 @@ The `model_comparison.json` file provides a machine-readable summary of all eval
 This file also strengthens methodological transparency by ensuring that all models are evaluated under the same hold-out framework and reported consistently. As a result, the comparison prevents selective reporting of only favourable outcomes and allows direct assessment of relative predictive performance across modelling approaches.
 
 ---
+## Interpretation of `primary_metric.json`
 
-## `primary_metric.json`
+This file functions as the formal decision record of the project because it converts the empirical results into a directly testable outcome independent of the written narrative. The file confirms that:
+- the primary MSE threshold was passed
+- the directional-accuracy threshold was not formally satisfied
+  
+---  
 
-The `primary_metric.json` file operationalises the central charter objective by storing the best-model MSE, baseline MSE, pass/fail indicator, directional accuracy, and best-performing model name within a standardised schema.
+## Interpretation of `baseline_metric.json`
 
-This output functions as the formal decision record of the project. It converts the empirical evaluation into a falsifiable and independently auditable outcome, separate from the interpretive discussion presented within the notebook and report.
+The `baseline_metric.json` file records the performance of the naive persistence benchmark, where future prices are assumed to equal current prices.
+
+This benchmark is methodologically important because predictive models are only meaningful if they outperform a defensible null model. The baseline therefore establishes the minimum standard that any machine-learning model must exceed in order to demonstrate incremental predictive value.
+
+The large reduction in MSE achieved by Ridge Regression relative to this benchmark provides the strongest evidence that the feature set contains economically meaningful information.
 
 ---
 
-## `baseline_metric.json`
+## Interpretation of `milestone_manifest.json` and Probe Outputs
 
-The `baseline_metric.json` file records the performance of the naive persistence benchmark, which assumes that future prices remain unchanged from current observed prices.
+The manifest and probe outputs primarily support reproducibility and data-source verification.
 
-Including this benchmark is methodologically essential because predictive models are only economically meaningful if they outperform a defensible null model. The baseline therefore establishes the minimum predictive standard that any machine-learning model must exceed in order to claim incremental forecasting value.
+The probe files confirm that:
+- live Yahoo Finance data was successfully fetched
+- approximately 91 NSE large-cap firms were collected
+- the synthetic fallback pipeline was not activated
 
----
+The manifest additionally records:
+- runtime configuration
+- evaluation status
+- output-file structure
+- reproducibility settings
 
-## `milestone_manifest.json` and Probe Outputs
-
-The manifest and probe outputs support reproducibility and data-source verification. The probe files confirm whether live Yahoo Finance data or the synthetic fallback pipeline was used during execution, while the manifest records runtime configuration, evaluation status, and output locations.
 
 Together, these files improve the transparency and auditability of the project by allowing reviewers to trace the precise conditions under which the results were generated. In an empirical research setting, such reproducibility infrastructure is important for distinguishing rigorous analytical workflows from purely illustrative demonstrations.
 
@@ -448,7 +473,15 @@ However, the directional-accuracy criterion was not formally satisfied. The best
 
 This outcome is reported directly rather than reframed as full success. The partial result remains economically informative. The findings suggest that predicting price levels using publicly available fundamentals, sector-relative signals, and technical indicators is tractable within the NSE large-cap universe, while predicting the exact direction of one-year-ahead returns remains substantially more difficult.
 
-This limitation is economically plausible because long-horizon stock returns are influenced not only by firm-level information, but also by macroeconomic shocks, policy changes, foreign capital flows, and global market sentiment — variables intentionally excluded from the feature set.
+This limitation is economically plausible because long-horizon stock returns are influenced not only by firm-level information, but also by broader macroeconomic forces intentionally excluded from the feature set, including:
+- monetary-policy changes
+- foreign institutional investor (FII) flows
+- global risk sentiment
+- geopolitical shocks
+- commodity-price volatility
+
+As a result, the project demonstrates that publicly available financial information contains meaningful signal for price-level prediction, even though directional classification at a one-year horizon remains challenging in a highly efficient market environment.
+
 
 ---
 
@@ -467,31 +500,19 @@ This limitation is economically plausible because long-horizon stock returns are
 
 AI assistance was used across multiple stages of the project, including data collection, feature engineering, modelling, visualisation, debugging, and report drafting. All final implementation decisions, model-selection choices, and interpretive conclusions were independently verified by the team.
 
-## Data Pipeline and Ticker Handling
+-**Data Pipeline and Ticker Handling:** ChatGPT and Gemini assisted in designing the initial workflow for collecting NSE stock data using `yfinance` and handling ticker-format inconsistencies. The team manually verified stock prices through Yahoo Finance, removed repeatedly failing tickers, and independently restricted the sample to firms with sufficient historical coverage.
 
-ChatGPT and Gemini assisted in designing the initial workflow for collecting NSE stock data using `yfinance` and handling ticker-format inconsistencies. The team manually verified stock prices through Yahoo Finance, removed repeatedly failing tickers, and independently restricted the sample to firms with sufficient historical coverage.
+-**Sector Mapping and Feature Engineering:** ChatGPT proposed an initial sector classification for firms in the sample. The team manually reviewed and corrected all sector labels. Gemini generated early versions of RSI, momentum, moving-average, earnings-yield, and relative-PE calculations. These were manually tested and refined by the team after identifying missing-value and rolling-window issues.
 
-## Sector Mapping and Feature Engineering
-
-ChatGPT proposed an initial sector classification for firms in the sample. The team manually reviewed and corrected all sector labels. Gemini generated early versions of RSI, momentum, moving-average, earnings-yield, and relative-PE calculations. These were manually tested and refined by the team after identifying missing-value and rolling-window issues.
-
-## Modelling and Evaluation
-
-Gemini suggested the initial train-test split structure and baseline prediction workflow. The team independently verified that no future information leaked into training and confirmed that target shifting was implemented correctly.
-
-Gemini also proposed initial Random Forest and XGBoost configurations. The team re-ran models under multiple hyperparameter settings and removed unstable specifications after empirical testing.
+-**Modelling and Evaluation:**  Gemini suggested the initial train-test split structure and baseline prediction workflow. The team independently verified that no future information leaked into training and confirmed that target shifting was implemented correctly.Gemini also proposed initial Random Forest and XGBoost configurations. The team re-ran models under multiple hyperparameter settings and removed unstable specifications after empirical testing.
 
 ChatGPT explained why Ridge Regression requires feature scaling whereas tree-based models do not. The team independently tested Ridge with and without `StandardScaler` before selecting the final configuration.
 
-## Visualisation and Charts
-
-GitHub Copilot assisted with plotting snippets and dataframe transformations. Gemini proposed layouts for residual plots and model-comparison figures, while ChatGPT suggested the correlation heatmaps and sector-comparison charts.
+-**Visualisation and Charts:**  GitHub Copilot assisted with plotting snippets and dataframe transformations. Gemini proposed layouts for residual plots and model-comparison figures, while ChatGPT suggested the correlation heatmaps and sector-comparison charts.
 
 All visualisations were manually reviewed, reformatted, and validated against notebook outputs to ensure numerical consistency.
 
-## Interpretation and Reporting
-
-ChatGPT suggested wording for interpreting prediction error, directional accuracy, and model-comparison outputs. Claude assisted in comparing model results and proposing explanations for underperforming models. The team independently re-ran the notebook in Google Colab and verified all reported MSE, R², and directional-accuracy outputs before finalising conclusions.
+-**Interpretation and Reporting:** ChatGPT suggested wording for interpreting prediction error, directional accuracy, and model-comparison outputs. Claude assisted in comparing model results and proposing explanations for underperforming models. The team independently re-ran the notebook in Google Colab and verified all reported MSE, R², and directional-accuracy outputs before finalising conclusions.
 
 Claude also assisted in rephrasing portions of the EDA discussion. All interpretations were checked manually against the underlying charts and datasets prior to inclusion in the report.
 
