@@ -20,7 +20,7 @@ This project forecasts 1-year-ahead closing prices for ~91 NSE large-cap equitie
 Open in Google Colab and run all cells top-to-bottom:
 
 ```
-notebooks/Indian_Equity_Predictor_ECO6810_CLEAN.ipynb
+notebooks/Indian_Equity_Predictor_ECO6810_CLEAN(1).ipynb
 ```
 
 No configuration needed. The notebook installs its own dependencies in Cell 1 and auto-activates a synthetic fallback if fewer than 20 live tickers are fetched.
