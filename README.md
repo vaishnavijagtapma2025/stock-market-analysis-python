@@ -3,6 +3,7 @@
 **A Sector-Wise Analysis and Prediction of Indian Equity Prices**
 
 **Team:** Anushmitaa Ghosh · Vaishnavi Jagtap · Anushka Bid
+
  **Date:** May 2026
 
 ---
