@@ -1,156 +1,116 @@
-# ECO6810 Final Project Starter Repo
+# Indian Equity Price Predictor — ECO 6810 Final Project
 
-This repo is the home for your team's final project.
+**A Sector-Wise Analysis and Prediction of Indian Equity Prices**
 
-Use it to keep the charter, code, report, outputs, and team history in one place. If you like working in Colab, that is fine. Run notebooks there if you want, but push the important work back here. GitHub is the source of truth. Colab is just one place to run code.
+**Team:** Anushmitaa Ghosh · Vaishnavi Jagtap · Anushka Bid
+ **Date:** May 2026
 
-This public repo is the starter. Your actual team repo should usually be private.
+---
 
-## Start Here
+## What This Project Does
 
-1. Click `Use this template` on GitHub to create your team's own **private** repo.
-2. Rename the repo to something clear and short.
-3. Add teammates as collaborators.
-4. Add the instructor as collaborator if the repo is private.
-5. If GitHub is new, read [GITHUB_PRIMER.md](./GITHUB_PRIMER.md).
-6. If moving from notebooks to scripts is new, read [PYTHON_PROJECT_PRIMER.md](./PYTHON_PROJECT_PRIMER.md).
-7. Read [FINAL_PROJECT.md](./FINAL_PROJECT.md).
-8. Read [SUBMISSION_FLOW.md](./SUBMISSION_FLOW.md).
-9. Start filling [CHARTER.md](./CHARTER.md) in this repo.
-10. Replace the placeholder fields in `main.py`, `report.md`, and `AI_USAGE_LOG.md`.
-11. Run `uv sync && uv run main.py`.
-12. Commit early. Commit often. Keep the repo readable.
+This project forecasts 1-year-ahead closing prices for ~91 NSE large-cap equities using 21 publicly available features — financial fundamentals, sector-relative signals and technical momentum indicators and evaluates whether the best ML model beats a naive persistence baseline (predict price unchanged) on a held-out test set.
 
-## Why GitHub For The Project
+**Research question:** Does a 21-feature model outperform naive persistence on out-of-sample test MSE, and does it achieve ≥ 60% directional accuracy?
 
-For assignments, plain Colab was enough. For a team project, it starts to break down.
+---
 
-GitHub helps because:
+## Run the Notebook
 
-- everyone sees the same current version
-- code, report, figures, and outputs live in one place
-- you can tell what changed and when
-- reproducibility gets much easier
-- handing the project to the instructor is just sharing the repo
+Open in Google Colab and run all cells top-to-bottom:
 
-The goal is not to turn you into software engineers overnight. The goal is to make team coordination simple and keep the project organized.
+```
+notebooks/Indian_Equity_Predictor_ECO6810_CLEAN.ipynb
+```
 
-## What This Repo Already Gives You
+No configuration needed. The notebook installs its own dependencies in Cell 1 and auto-activates a synthetic fallback if fewer than 20 live tickers are fetched.
 
-- a fast primer in [GITHUB_PRIMER.md](./GITHUB_PRIMER.md)
-- a notebook-to-project guide in [PYTHON_PROJECT_PRIMER.md](./PYTHON_PROJECT_PRIMER.md)
-- the full project brief in [FINAL_PROJECT.md](./FINAL_PROJECT.md)
-- an exact submission guide in [SUBMISSION_FLOW.md](./SUBMISSION_FLOW.md)
-- the project plan template in [CHARTER.md](./CHARTER.md)
-- a runnable `main.py` that writes the required JSON outputs
-- a `project_code/` folder for reusable Python functions
-- a report template in [report.md](./report.md)
-- an AI usage log template in [AI_USAGE_LOG.md](./AI_USAGE_LOG.md)
-- a `notebooks/` folder for Colab-first exploration
-- probe and output folders in the right shape
-- peer samples in [`peer-samples/README.md`](./peer-samples/README.md)
-- starter ideas in [`starter-ideas/README.md`](./starter-ideas/README.md)
+Expected runtime: **~3–5 minutes** in Colab (data fetch is the bottleneck).
 
-## The Working Rule
+---
 
-One repo. One main metric. One baseline. One documented run command.
-
-If your team remembers only one thing, remember that.
-
-## Repo Map
-
-| Path | What it is for |
-|---|---|
-| `GITHUB_PRIMER.md` | Fast GitHub onboarding for students coming from Colab |
-| `PYTHON_PROJECT_PRIMER.md` | How to combine notebooks, Python files, and `main.py` |
-| `FINAL_PROJECT.md` | Full project requirements and grading |
-| `SUBMISSION_FLOW.md` | Exact milestone and final submission steps |
-| `CHARTER.md` | The short project plan you submit first |
-| `main.py` | Your main reproducible run |
-| `project_code/` | Reusable helper functions imported by notebooks or `main.py` |
-| `notebooks/` | Colab notebooks and exploratory work |
-| `data/` | Data files or licence notes |
-| `artifacts/probes/` | Small proofs that your data sources work |
-| `outputs/` | Required JSON outputs plus tables and figures |
-| `report.md` | Final written report |
-| `AI_USAGE_LOG.md` | What you used AI for and what you verified yourself |
-| `peer-samples/` | Strong sample charters based on earlier student project ideas |
-| `starter-ideas/` | Course-proposed project ideas you can adopt and narrow down |
-
-## Quick Setup
+## Run the Script (Reproducible Pipeline)
 
 ```bash
 uv sync
 uv run main.py
 ```
 
-That first run is only a scaffold check. It writes placeholder outputs so you can see the required file shapes. Replace those placeholders before you submit anything.
+This is the single reproducible entry point. It writes all required output files and exits. No Jupyter kernel or manual steps required.
 
-Add project-specific packages in `pyproject.toml` as your work evolves. The starter environment is intentionally light.
+---
 
-## How To Work As A Team
+## Outputs Written
 
-- put the project question and stakeholder in the charter first
-- assign clear ownership for data, analysis, writing, and cleanup
-- keep commits small enough that teammates can understand them
-- do not let the report drift away from what the code actually produced
-- if you use a notebook, export the important logic into scripts before the end
+| File | Contents |
+|---|---|
+| `outputs/primary_metric.json` | Best model test MSE, baseline MSE threshold, pass/fail |
+| `outputs/baseline_metric.json` | Naive persistence baseline MSE |
+| `outputs/milestone_manifest.json` | Data source status, run metadata |
+| `data/probe_output.txt` | Yahoo Finance access confirmation (or fallback notice) |
 
-## If You Prefer Colab
+**Pass condition:** `best_model_mse < baseline_mse` → `"passed": true` in `primary_metric.json`.
 
-You can still use it.
+---
 
-Good pattern:
+## Models Trained
 
-- explore in Colab if that is faster
-- save the notebook in `notebooks/`
-- move stable logic into `project_code/` or helper scripts
-- keep the final reproducible run inside the repo
+Four models are trained and compared on the same 80/20 stratified split (~72 train / ~18 test firms):
 
-Bad pattern:
+- Ridge Regression
+- Random Forest
+- Gradient Boosting
+- XGBoost (+ SHAP feature importance)
 
-- one teammate has the "real" notebook
-- figures exist only in Colab outputs
-- no one knows which version is current
-- the final result depends on hidden notebook state
+The best test-set MSE is reported as the primary result.
 
-## What Will Be Graded
+---
 
-You are not submitting a random folder of files. You are showing that your project works and that your team can explain it clearly.
+## Features Used (21 total)
 
-For the milestone, we mainly ask:
+| Group | Features |
+|---|---|
+| Firm fundamentals (17) | `pe_ratio`, `roe`, `roa`, `profit_margin`, `revenue_growth`, `earnings_growth`, `debt_to_equity`, `current_ratio`, `beta`, `book_value`, `price_to_book`, `dividend_yield`, `eps`, `ebitda_margin`, `log_market_cap`, `earnings_yield`, `peg_proxy` |
+| Sector-relative signals (4) | `sector_median_pe`, `relative_pe`, `sector_avg_margin`, `sector_avg_growth` |
+| Technical momentum (5) | `mom_1q`, `mom_4q`, `rsi`, `price_vs_sma4`, `price_vs_sma8` |
 
-- is the project real?
-- can you access the data?
-- does the repo run?
+All technical signals are derived strictly from quarterly price history prior to `t−1` (no look-ahead bias).
 
-For the final submission, we mainly ask:
+---
 
-- did you stick to the approved plan?
-- does the repo still run cleanly?
-- does the report match the code and outputs?
+## Data Source
 
-The full details are in [FINAL_PROJECT.md](./FINAL_PROJECT.md).
+Live data is fetched from Yahoo Finance via `yfinance >= 0.2.36` — no API key required.
 
-## Before You Submit
+- `current_price`: closing price ~365 days ago (≈ May 2025)
+- `target_price`: closing price today (≈ May 2026)
+- Quarterly price history: 2-year window for technical signal construction
 
-For the milestone:
+**Fallback:** Synthetic data (90 firms, sector-calibrated parameters) activates automatically if fewer than 20 tickers succeed.
 
-- the charter is approved
-- the run command in `README.md` is accurate
-- each main data source has a small proof that it works
-- `outputs/baseline_metric.json` is real
-- `outputs/milestone_manifest.json` is real
+---
 
-For the final submission:
+## Repo Map
 
-- `outputs/baseline_metric.json` is real
-- `outputs/primary_metric.json` is real
-- the report matches the code
-- the AI usage log is honest
+| Path | Purpose |
+|---|---|
+| `CHARTER.md` | Full project plan and methodology |
+| `main.py` | Reproducible run entry point |
+| `notebooks/` | Colab notebook for exploration and full pipeline |
+| `project_code/` | Reusable helper functions |
+| `data/` | Data files and probe outputs |
+| `outputs/` | Required JSON metric files, tables, figures |
+| `report.md` | Final written report |
+| `AI_USAGE_LOG.md` | AI tool usage disclosure |
 
-## One Good Habit
+---
 
-Do not wait until the final week to make the repo clean.
+## Scope
 
-Messy projects do not usually fail because the idea was bad. They fail because the structure never became stable enough to trust.
+**In scope:** ~90 NSE large-cap firms, cross-sectional, 1-year price prediction (May 2025 → May 2026), 12 sectors, supplementary Top-15 portfolio analysis (Sharpe ratio, IR, Max Drawdown — reported as exploratory only, not part of pass/fail grading).
+
+**Out of scope:** Causal inference, trading strategies, intraday or multi-year modelling, generalisation beyond the ~90 sample firms.
+
+---
+
+*Signed:* Anushmitaa Ghosh, Vaishnavi Jagtap, Anushka Bid
