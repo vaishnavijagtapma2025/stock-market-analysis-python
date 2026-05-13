@@ -107,7 +107,7 @@ Live data is fetched from Yahoo Finance via `yfinance >= 0.2.36` — no API key 
 
 ## Scope
 
-**In scope:** ~90 NSE large-cap firms, cross-sectional, 1-year price prediction (May 2025 → May 2026), 12 sectors, supplementary Top-15 portfolio analysis (Sharpe ratio, IR, Max Drawdown — reported as exploratory only, not part of pass/fail grading).
+**In scope:** ~91 NSE large-cap firms, cross-sectional, 1-year price prediction (May 2025 → May 2026), 12 sectors, supplementary Top-15 portfolio analysis (Sharpe ratio, IR, Max Drawdown — reported as exploratory only, not part of pass/fail grading).
 
 **Out of scope:** Causal inference, trading strategies, intraday or multi-year modelling, generalisation beyond the ~90 sample firms.
 
