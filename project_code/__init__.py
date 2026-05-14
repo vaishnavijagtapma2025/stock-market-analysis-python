@@ -1,5 +1,5 @@
 """
-Reusable helper functions for the Indian Equity Price Predictor project.
+Reusable helper package for the Indian Equity Price Predictor project.
 """
 
 from .template_outputs import (
