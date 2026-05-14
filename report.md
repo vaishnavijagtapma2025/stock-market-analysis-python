@@ -314,6 +314,7 @@ Taken together the results suggest that machine learning models can improve pric
  # Section 6 — Evidence and Interpretation of All Generated Outputs
 
 ## Chart 1 — Data Overview
+**File:** `outputs/chart1_data_overview.png`
 
 Chart 1 provides a foundational descriptive overview of the dataset prior to predictive modelling. The stock-price distribution highlights substantial heterogeneity within the NSE large-cap universe, with prices ranging from relatively low three-digit values to several thousand rupees per share. This wide dispersion economically justifies the use of scale-adjusted metrics such as MAPE and motivates transformations such as `log_market_cap` during feature engineering.
 
@@ -325,12 +326,14 @@ Overall, the figure confirms that the dataset contains sufficient variation in b
 
 ---
 ## Chart 2 — EDA Deep Dive
+**File:** `outputs/chart2_eda_deepdive.png`
 
 The sector heatmap standardises key accounting and valuation variables using Z-scored medians, enabling direct comparison across industries with otherwise incomparable raw scales. The figure demonstrates that sectors differ systematically across profitability, leverage, growth, and valuation characteristics. Technology and consumer-oriented firms generally exhibit higher growth and richer valuation multiples, while sectors such as metals and energy display greater volatility in profitability and leverage metrics.
 The feature-correlation analysis provides preliminary evidence regarding which variables may contain predictive signal before model fitting begins. Momentum indicators, profitability measures, earnings yield, and relative valuation metrics show stronger association with realised future returns than purely accounting-scale variables. Importantly, no single feature dominates perfectly, implying that the prediction task requires combining multiple weak signals rather than relying on one deterministic driver. This economically supports the use of ensemble machine-learning methods capable of modelling complex interactions between variables.
 
 ---
 ## Chart 3 — Price Distribution and Sector Boxplots
+**File:** `outputs/chart3_price_distribution.png`
 
 The price-distribution visualisation demonstrates the strong right-skewness characteristic of equity-price datasets. A relatively small number of very high-priced firms coexist alongside a larger number of moderately priced firms, creating substantial scale imbalance across the universe. This justifies the use of logarithmic transformations and regularisation methods to stabilise estimation.
 
@@ -338,6 +341,7 @@ The sector-wise boxplots further reveal that dispersion differs materially acros
 
 ---
 ## Chart 4 — Correlation Matrix
+**File:** `outputs/chart4_correlation_matrix.png`
 
 The correlation matrix visualises the linear relationships among major explanatory variables and between features and the target variable. The chart highlights moderate relationships between profitability, growth, and valuation measures while also showing that many variables contribute distinct information.
 
@@ -347,6 +351,7 @@ Economically, the matrix confirms that future stock prices are influenced by a c
 
 ---
 ## Chart 5 — Baseline vs Machine-Learning Models
+**File:** `outputs/chart5_model_comparison.png`
 
 This chart provides the central empirical comparison between the naive persistence benchmark and the machine-learning models. The figure demonstrates that all predictive models outperform the baseline on Mean Squared Error, indicating that publicly available financial and market information contains signal beyond the assumption that stock prices simply remain unchanged.
 
@@ -355,6 +360,7 @@ The directional-accuracy comparison shows that the models consistently exceed th
 
 ---
 ## Chart 6 — Actual vs Predicted Prices
+**File:** `outputs/chart6_actual_vs_predicted.png`
 
 The actual-versus-predicted scatterplots assess how closely the fitted models reproduce realised stock-price outcomes on the hold-out test set. The concentration of observations around the 45-degree reference line indicates that the models capture the broad scaling relationship between current and future price levels without severe systematic bias.
 
@@ -364,6 +370,7 @@ The comparatively tighter clustering achieved by Ridge Regression reinforces the
 
 ---
 ## Chart 7 — Residual Analysis
+**File:** `outputs/chart7_residuals.png`
 
 The residual diagnostics evaluate whether the fitted models violate major statistical assumptions or exhibit obvious specification problems. The residual-versus-predicted scatterplot shows that prediction errors remain broadly distributed around zero without a strong deterministic structure, indicating that the models captured most systematic relationships present in the data.
 
@@ -373,6 +380,7 @@ The existence of wider tails in the error distribution reflects genuine market u
 
 ---
 ## Chart 8 — SHAP Feature Importance
+**File:** `outputs/chart8_shap_importance.png`
 
 The SHAP analysis provides interpretability for the XGBoost model by decomposing predictions into additive feature-level contributions. Although Ridge Regression achieved the best overall predictive performance, SHAP remains valuable because tree-based models provide a richer framework for identifying non-linear interactions across features.
 The mean absolute SHAP values indicate that `current_price` is the most influential predictor in the model. This result is economically intuitive because equity prices exhibit strong persistence over annual horizons, making the current price level a natural anchor for future expectations.
@@ -381,6 +389,7 @@ Momentum variables such as `mom_4q` and valuation measures such as `earnings_yie
 
 ---
 ## Chart 9 — Portfolio Performance Analysis
+**File:** `outputs/chart9_portfolio.png`
 
 The portfolio-performance chart evaluates the exploratory Top-15 portfolio constructed using predicted returns from the machine-learning ranking system. Several selected firms substantially outperform the equal-weight benchmark during the evaluation period, suggesting that the model captures meaningful cross-sectional variation in expected returns.
 

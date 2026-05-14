@@ -16,7 +16,6 @@ from sklearn.linear_model import Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score
-from IPython.display import display
 
 warnings.filterwarnings("ignore")
 
@@ -299,7 +298,11 @@ TARGET_COL   = "target_price"
 print(f"Dataset shape    : {df.shape}")
 print(f"Feature count    : {len(FEATURE_COLS)}")
 print(f"Features         : {FEATURE_COLS}")
-display(df[["Ticker","Sector","current_price","target_price","actual_1yr_return"]].head(10))
+print(
+    df[["Ticker", "Sector", "current_price", "target_price", "actual_1yr_return"]]
+    .head(10)
+    .to_string(index=False)
+)
 
 
 # ── Step 3: Charts  ─────────────────────────────────────────────────────
@@ -1117,12 +1120,17 @@ print(f"  Information Ratio  : {ir:>8.4f}")
 print(f"  Max Single-Stock DD: {max_dd*100:>8.2f}%")
 print("=" * 55)
 print("\nTop-15 Picks (by predicted return):")
-display(top15[["Ticker","Sector","current_price","pred_price","pred_return","actual_return"]]
-        .assign(pred_return=lambda d: d.pred_return.map("{:.1%}".format),
-                actual_return=lambda d: d.actual_return.map("{:.1%}".format),
-                pred_price=lambda d: d.pred_price.round(2),
-                current_price=lambda d: d.current_price.round(2))
-        .reset_index(drop=True))
+top15_display = (
+    top15[["Ticker", "Sector", "current_price", "pred_price", "pred_return", "actual_return"]]
+    .assign(
+        pred_return=lambda d: d.pred_return.map("{:.1%}".format),
+        actual_return=lambda d: d.actual_return.map("{:.1%}".format),
+        pred_price=lambda d: d.pred_price.round(2),
+        current_price=lambda d: d.current_price.round(2),
+    )
+    .reset_index(drop=True)
+)
+print(top15_display.to_string(index=False))
 
 # Chart 8 — Top-15 Portfolio vs Equal-Weight Benchmark
 
@@ -1333,7 +1341,7 @@ styled = (
     ])
 )
 
-display(styled)
+print(results.head(15).to_string(index=False))
 
 results.to_csv(
     "outputs/full_predictions.csv",

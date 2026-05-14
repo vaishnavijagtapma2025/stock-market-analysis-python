@@ -1,0 +1,3 @@
+Yahoo Finance probe: 0 tickers fetched live.
+Synthetic fallback used: True
+Timestamp: 2026-05-14 16:15:59.999764
