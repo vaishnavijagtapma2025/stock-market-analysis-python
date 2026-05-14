@@ -14,21 +14,6 @@ This project forecasts 1-year-ahead closing prices for ~91 NSE large-cap equitie
 
 **Research question:** Does a 21-feature model outperform naive persistence on out-of-sample test MSE, and does it achieve ≥ 60% directional accuracy?
 
----
-
-## Run the Notebook
-
-Open in Google Colab and run all cells top-to-bottom:
-
-```
-notebooks/Indian_Equity_Predictor_ECO6810_CLEAN(1).ipynb
-```
-
-No configuration needed. The notebook installs its own dependencies in Cell 1 and auto-activates a synthetic fallback if fewer than 20 live tickers are fetched.
-
-Expected runtime: **~3–5 minutes** in Colab (data fetch is the bottleneck).
-
----
 
 ## Run the Script (Reproducible Pipeline)
 
@@ -38,6 +23,13 @@ uv run main.py
 ```
 
 This is the single reproducible entry point. It writes all required output files and exits. No Jupyter kernel or manual steps required.
+
+## For exploration
+
+Open `notebooks/Indian_Equity_Predictor_ECO6810_CLEAN(1).ipynb` in Google Colab and run all cells.
+
+Expected runtime: **~3–5 minutes** in Colab (data fetch is the bottleneck).
+
 
 ---
 
