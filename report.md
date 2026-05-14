@@ -295,7 +295,7 @@ A naive model that simply predicts:
 
 explains most of that level variance (hence \( R^2 \approx 0.90 \)), even though it captures none of the year-on-year change. Mathematically, R² measures explained variance in *levels*, not returns; a stock priced at ₹30,000 today will almost certainly be closer to ₹30,000 than to ₹500 next year, regardless of model sophistication.
 
-The Mean Squared Error (MSE) metric — which penalises absolute price-level errors — is therefore the correct primary comparison and correctly shows Ridge Regression outperforming the baseline by approximately 88%.
+The Mean Squared Error (MSE) metric which penalises absolute price-level errors is therefore the correct primary comparison and correctly shows Ridge Regression outperforming the baseline by approximately 88%.The Ridge model reduced prediction error substantially relative to the naive persistence benchmark, lowering out-of-sample MSE by approximately 88%. This indicates that the feature set contained meaningful predictive information beyond simple price persistence.
 
 
 ---
