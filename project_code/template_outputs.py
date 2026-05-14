@@ -1,40 +1,52 @@
 from __future__ import annotations
 
 
-def build_baseline_metric() -> dict:
+def build_baseline_metric(baseline_mse: float) -> dict:
     return {
-        "metric_name": "replace_me_baseline",
-        "value": 0.0,
-        "unit": "replace_me_unit",
-        "notes": "Template value. Replace this with your real baseline before the milestone.",
-        "is_template": True,
+        "metric_name": "naive_persistence_mse",
+        "value": round(float(baseline_mse), 4),
+        "unit": "mse",
+        "model": "Naive Persistence Baseline",
     }
 
 
-def build_primary_metric() -> dict:
-    return {
-        "metric_name": "replace_me_primary",
-        "value": 0.0,
-        "threshold": 0.0,
-        "passed": False,
-        "notes": "Template value. Replace this with your real project metric before the final submission.",
-        "is_template": True,
+def build_primary_metric(
+    best_model_name: str,
+    best_model_mse: float,
+    baseline_mse: float,
+    directional_accuracy: float | None = None,
+) -> dict:
+
+    passed = best_model_mse < baseline_mse
+
+    payload = {
+        "metric_name": "best_model_test_mse",
+        "model_name": best_model_name,
+        "value": round(float(best_model_mse), 4),
+        "threshold": round(float(baseline_mse), 4),
+        "passed": passed,
     }
+
+    if directional_accuracy is not None:
+        payload["directional_accuracy"] = round(
+            float(directional_accuracy), 4
+        )
+
+    return payload
 
 
 def build_milestone_manifest() -> dict:
     return {
-        "charter_locked": False,
+        "charter_locked": True,
         "sources": [
             {
-                "name": "replace_me_source",
-                "status": "blocked",
-                "probe_artifact": "artifacts/probes/replace_me_probe.md",
-                "note": "Replace this with a real one-row or one-response source probe.",
+                "name": "Yahoo Finance",
+                "status": "ok",
+                "probe_artifact": "data/probe_output.txt",
+                "note": "Stock price and firm-level financial data fetched using yfinance.",
             }
         ],
-        "baseline_ready": False,
+        "baseline_ready": True,
         "primary_metric_schema_ready": True,
         "run_command": "uv run main.py",
-        "template_warning": "This scaffold runs, but it is not submission-ready until you replace the placeholders.",
     }
