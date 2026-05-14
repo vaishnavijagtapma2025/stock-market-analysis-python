@@ -14,25 +14,17 @@ def build_primary_metric(
     best_model_name: str,
     best_model_mse: float,
     baseline_mse: float,
-    directional_accuracy: float | None = None,
+    directional_accuracy: float,
 ) -> dict:
 
-    passed = best_model_mse < baseline_mse
-
-    payload = {
+    return {
         "metric_name": "best_model_test_mse",
         "model_name": best_model_name,
         "value": round(float(best_model_mse), 4),
         "threshold": round(float(baseline_mse), 4),
-        "passed": passed,
+        "passed": best_model_mse < baseline_mse,
+        "directional_accuracy": round(float(directional_accuracy), 4),
     }
-
-    if directional_accuracy is not None:
-        payload["directional_accuracy"] = round(
-            float(directional_accuracy), 4
-        )
-
-    return payload
 
 
 def build_milestone_manifest() -> dict:
@@ -43,7 +35,7 @@ def build_milestone_manifest() -> dict:
                 "name": "Yahoo Finance",
                 "status": "ok",
                 "probe_artifact": "data/probe_output.txt",
-                "note": "Stock price and firm-level financial data fetched using yfinance.",
+                "note": "Live stock and financial data fetched using yfinance.",
             }
         ],
         "baseline_ready": True,
