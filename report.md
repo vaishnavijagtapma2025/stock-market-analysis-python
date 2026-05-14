@@ -283,6 +283,21 @@ The shortfall is economically plausible given the difficulty of predicting one-y
 
 As a result, directional accuracy in the range of 55–65% is generally considered realistic for a fundamentally driven cross-sectional equity model operating on publicly available information.
 
+### Note on the Baseline R² = 0.8976
+
+The unusually high R² for the naive persistence model warrants explanation and is not an error. In this dataset, `current_price` (the predictor at time *t−1*) and `target_price` (the outcome at time *t*) are both annual closing prices for the same stocks measured approximately one year apart. Because the NSE large-cap universe spans a very wide price range — from roughly ₹150 to over ₹35,000 per share — the cross-sectional variance in price levels is enormous.
+
+A naive model that simply predicts:
+
+```math
+\text{target\_price} = \text{current\_price}
+```
+
+explains most of that level variance (hence \( R^2 \approx 0.90 \)), even though it captures none of the year-on-year change. Mathematically, R² measures explained variance in *levels*, not returns; a stock priced at ₹30,000 today will almost certainly be closer to ₹30,000 than to ₹500 next year, regardless of model sophistication.
+
+The Mean Squared Error (MSE) metric — which penalises absolute price-level errors — is therefore the correct primary comparison and correctly shows Ridge Regression outperforming the baseline by approximately 88%.
+
+
 ---
 
 ## 5.4 Conclusion
