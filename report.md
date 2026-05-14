@@ -302,9 +302,13 @@ The Mean Squared Error (MSE) metric which penalises absolute price-level errors 
 
 ## 5.4 Conclusion
 
-The project successfully demonstrated that machine learning models trained on publicly available financial and market information can substantially improve one-year-ahead stock-price prediction accuracy relative to a naive “prices stay unchanged” assumption.
+Overall, the project partially satisfied its stated success criteria.
 
-Although the directional-accuracy threshold was narrowly missed, the models still captured meaningful information about future price movements, suggesting that publicly available fundamentals and technical indicators contain economically relevant predictive signal within the NSE large-cap universe.
+The primary objective was achieved: the best-performing machine learning model (Ridge Regression) substantially outperformed the naive persistence benchmark on out-of-sample Mean Squared Error, indicating that publicly available firm fundamentals, sector-relative signals and momentum indicators contain meaningful predictive information for future NSE large-cap prices.
+
+However, the secondary directional-accuracy target of 60% was narrowly missed with the best overall model achieving 57.9% directional accuracy on the held-out test set.
+
+Taken together the results suggest that machine learning models can improve price-level forecasting accuracy relative to naive persistence but reliably predicting the direction of one-year-ahead stock movements remains difficult in highly efficient large-cap equity markets.
 
 
  # Section 6 — Evidence and Interpretation of All Generated Outputs
