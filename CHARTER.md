@@ -31,7 +31,7 @@ All three members jointly contribute to writing, review, and final submission.
 ## 1. Problem, Stakeholder, and Decision-Maker
 
 **Who this project is for:**
-The primary stakeholder is an **equity research analyst** (or junior portfolio manager) at a domestic Indian asset management firm or brokerage who monitors NSE large-cap stocks. Specifically, this analyst needs to triage which stocks warrant deeper fundamental review each quarter. They currently rely on a manual, judgment-based process using a handful of ratios and recent price momentum. The decision they face is: *which firms among approximately 90 NSE large-cap names are likely to deliver above-average price appreciation over the next 12 months, given publicly available fundamentals and technical signals as of today?*
+The primary stakeholder is an **equity research analyst** (or junior portfolio manager) at a domestic Indian asset management firm or brokerage who monitors NSE large-cap stocks. Specifically, this analyst needs to triage which stocks warrant deeper fundamental review each quarter. They currently rely on a manual, judgment-based process using a handful of ratios and recent price momentum. The decision they face is: *which firms among approximately 91 NSE large-cap names are likely to deliver above-average price appreciation over the next 12 months, given publicly available fundamentals and technical signals as of today?*
 
 **The analytical task:**
 We build a model that ingests 21 features — comprising firm-level financial fundamentals (e.g., PE ratio, ROE, ROA, profit margin, revenue growth, earnings growth, debt-to-equity, current ratio, price-to-book, EBITDA margin, EPS, dividend yield, log market cap, earnings yield, PEG proxy), sector-relative signals (sector-median PE, relative PE, sector average margin and growth), and technical momentum indicators (1-quarter and 4-quarter momentum, RSI, price vs. 4-quarter and 8-quarter SMA) — and outputs a predicted 1-year-forward closing price per firm. The model is trained on approximately 72 firms (~80% of the sample) and evaluated on approximately 18 held-out test firms (~20%).
@@ -49,7 +49,7 @@ Indian large-cap equity markets are heavily covered yet analysts remain uncertai
 | **Unit** | Indian Rupees (₹ per share) |
 | **Source** | Yahoo Finance via `yfinance` Python library |
 | **Field** | `Close` price from `yf.download()` |
-| **Population / Panel** | Cross-sectional dataset of approximately 90 NSE-listed large-cap firms. For each firm, `target_price` is the most recent available closing price at time *t* (today, May 2026), and `current_price` is the closing price approximately 365 days earlier at time *t−1* (May 2025). The dataset is split 80/20: ~72 training firms and ~18 test firms. |
+| **Population / Panel** | Cross-sectional dataset of approximately 91 NSE-listed large-cap firms. For each firm, `target_price` is the most recent available closing price at time *t* (today, May 2026), and `current_price` is the closing price approximately 365 days earlier at time *t−1* (May 2025). The dataset is split 80/20: ~72 training firms and ~18 test firms. |
 
 The primary metric is the **out-of-sample MSE on the 20% test set**, computed on predicted vs. actual closing prices in ₹. As a secondary metric we report **directional accuracy** — the fraction of test firms for which the model correctly predicts whether the price went up or down over the year.
 
@@ -97,7 +97,7 @@ Results are saved to:
 
 predicted_price = current_price
 
-This is the standard no-information benchmark in equity price forecasting. Based on the cross-section of ~90 NSE large-caps over May 2025–May 2026, the baseline MSE will be non-trivial given the wide price range across the sample (roughly ₹150 to ₹35,000), and substantial variation in 1-year returns across sectors (Energy, Technology, Finance, Consumer, etc.).
+This is the standard no-information benchmark in equity price forecasting. Based on the cross-section of ~91 NSE large-caps over May 2025–May 2026, the baseline MSE will be non-trivial given the wide price range across the sample (roughly ₹150 to ₹35,000), and substantial variation in 1-year returns across sectors (Energy, Technology, Finance, Consumer, etc.).
 
 
 The baseline MSE is computed on the **same 20% held-out test set** as the model MSE, and is always reported first for transparency.
@@ -121,7 +121,7 @@ Directional accuracy is reported as a secondary evaluation metric alongside test
 
 - URL / API endpoint: `https://finance.yahoo.com` (accessed programmatically via `yfinance >= 0.2.36`)
 - Licence: Yahoo Finance data is publicly available for personal and academic non-commercial use. No login required. No scraping — `yfinance` uses the official Yahoo Finance query API.
-- Access method: Direct API call via Python; no authentication needed; no rate-limit issues at 90-ticker scale.
+- Access method: Direct API call via Python; no authentication needed; no rate-limit issues at 91-ticker scale.
 
 **Data fetched per ticker:**
 
@@ -147,7 +147,7 @@ print("PE Ratio:", ticker.info.get('trailingPE'))
 
 **Probe path:** `data/probe_output.txt` — generated automatically when running `uv run main.py`.
 
-If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fallback** automatically (< 20 tickers fetched triggers synthetic data generation for all 90 firms using sector-level parameters). No manual intervention required.
+If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fallback** automatically (< 20 tickers fetched triggers synthetic data generation for all 91 firms using sector-level parameters). No manual intervention required.
 
 The main dataset is available in the data folder.
 
@@ -156,7 +156,7 @@ The main dataset is available in the data folder.
 ## 8. Scope Limits
 
 **In scope:**
-- ~90 NSE-listed large-cap firms, cross-sectional dataset
+- ~91 NSE-listed large-cap firms, cross-sectional dataset
 - Prediction horizon: exactly 1 year (365 days), fixed
 - Period: closing price at May 2025 → closing price at May 2026
 - Sectors covered: Energy, Technology, Finance, Consumer, Automobile, Healthcare, Chemicals, Metals, Real Estate, Textiles, Retail, Defense
@@ -168,7 +168,7 @@ The main dataset is available in the data folder.
 - No trading strategies, portfolio optimisation beyond the illustrative Top-15 backtest, or live trading
 - No adjustment for corporate actions beyond adjusted closing prices from `yfinance`
 - No intraday, weekly, or multi-year modelling
-- No generalisation beyond the ~90 NSE large-cap firms in the sample
+- No generalisation beyond the ~91 NSE large-cap firms in the sample
 - No harmonisation of accounting/reporting differences; data used as reported by Yahoo Finance
 - No production system, web app, or real-time API
 
@@ -176,7 +176,7 @@ The main dataset is available in the data folder.
 
 ## 9. Risks and Fallbacks
 
-**Risk 1:** The dataset is small (~90 firms, cross-sectional) and may limit model generalisation.
+**Risk 1:** The dataset is small (~91 firms, cross-sectional) and may limit model generalisation.
 **Fallback:** If models fail to beat the baseline MSE, the analysis pivots to directional prediction (up/down classification) and reports directional accuracy as the primary metric with a 60% threshold.
 
 **Risk 2:** Stock prices are non-stationary and scale-dependent; direct price level prediction may yield large errors.
