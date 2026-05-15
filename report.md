@@ -169,7 +169,7 @@ The complete out-of-sample model performance results are presented below. Ridge 
 | Model | MSE (INR²) | R² | Directional Accuracy |
 |---|---:|---:|---:|
 | Baseline (Naive Persistence) | 7,258,988 | 0.8821 | 73.7% |
-**| Ridge Regression | 803,025 | 0.9870 | 63.2% |**
+| Ridge Regression | 803,025 | 0.9870 | 63.2% |
 | Random Forest | 27,622,061 | 0.5514 | 47.4% |
 | Gradient Boosting | 22,638,135 | 0.6324 | 42.1% |
 | XGBoost | 8,935,960 | 0.8549 | 52.6% |
