@@ -327,23 +327,39 @@ Overall, the figure confirms that the dataset contains sufficient variation in b
 ## Chart 2 — EDA Deep Dive
 
 The sector heatmap standardises key accounting and valuation variables using Z-scored medians, enabling direct comparison across industries with otherwise incomparable raw scales. The figure demonstrates that sectors differ systematically across profitability, leverage, growth, and valuation characteristics. Technology and consumer-oriented firms generally exhibit higher growth and richer valuation multiples, while sectors such as metals and energy display greater volatility in profitability and leverage metrics.
+
 The feature-correlation analysis provides preliminary evidence regarding which variables may contain predictive signal before model fitting begins. Momentum indicators, profitability measures, earnings yield, and relative valuation metrics show stronger association with realised future returns than purely accounting-scale variables. Importantly, no single feature dominates perfectly, implying that the prediction task requires combining multiple weak signals rather than relying on one deterministic driver. This economically supports the use of ensemble machine-learning methods capable of modelling complex interactions between variables.
 
 ---
-## Chart 3 — Price Distribution and Sector Boxplots
+## Chart 3(EDA) — Price Distribution and Sector Boxplots
 
 The price-distribution visualisation demonstrates the strong right-skewness characteristic of equity-price datasets. A relatively small number of very high-priced firms coexist alongside a larger number of moderately priced firms, creating substantial scale imbalance across the universe. This justifies the use of logarithmic transformations and regularisation methods to stabilise estimation.
 
-The sector-wise boxplots further reveal that dispersion differs materially across industries. Some sectors display tightly clustered price ranges, indicating relatively homogeneous firm structures, while others exhibit extreme intra-sector variation. The existence of large interquartile spreads and visible outliers reinforces the economic reality that Indian large-cap firms operate under highly differentiated business models and valuation regimes.From a modelling perspective, this heterogeneity increases the difficulty of predicting future prices using a single global specification and provides additional justification for sector-relative feature engineering.
+The sector-wise boxplots further reveal that dispersion differs materially across industries. Some sectors display tightly clustered price ranges, indicating relatively homogeneous firm structures, while others exhibit extreme intra-sector variation. The existence of large interquartile spreads and visible outliers reinforces the economic reality that Indian large-cap firms operate under highly differentiated business models and valuation regimes.
+
+From a modelling perspective, this heterogeneity increases the difficulty of predicting future prices using a single global specification and provides additional justification for sector-relative feature engineering.
 
 ---
-## Chart 4 — Correlation Matrix
 
-The correlation matrix visualises the linear relationships among major explanatory variables and between features and the target variable. The chart highlights moderate relationships between profitability, growth, and valuation measures while also showing that many variables contribute distinct information.
 
-The absence of excessively high pairwise correlations among most engineered features suggests that severe multicollinearity is limited after the introduction of transformations such as earnings yield and PEG proxy. This is particularly important for Ridge Regression, whose regularisation mechanism performs best when explanatory variables contain partially overlapping but not perfectly redundant information.
+## Chart 4(EDA) — Sector Performance Dashboard
 
-Economically, the matrix confirms that future stock prices are influenced by a combination of valuation, growth, leverage, and momentum variables rather than by a single dominant accounting ratio.
+The sector-level analysis reveals significant variation in stock performance across industries, confirming that sector dynamics materially influence returns and risk characteristics. Metals emerged as the strongest-performing sector, delivering the highest average returns with a 100% positive-return rate, while Automobile and Healthcare also demonstrated broad-based gains and relatively stable performance. 
+
+In contrast, Technology, Real Estate, Chemicals, and Textiles showed predominantly negative returns and weak win rates, indicating persistent sector-wide underperformance during the sample period. The return-versus-volatility relationship further highlights that some sectors, such as Metals, achieved strong returns with manageable risk, whereas sectors like Technology and Energy experienced high volatility alongside poor returns, reflecting unfavorable risk-adjusted performance. 
+
+Overall, the findings demonstrate that both expected returns and volatility differ systematically across industries, supporting the inclusion of sector-relative variables in the predictive modeling framework.
+
+
+## Chart 5 (EDA) — Fundamental Landscape: Full Correlation Matrix & Key Ratios
+
+The fundamental landscape analysis reveals substantial cross-sectional variation in valuation, profitability, leverage, and growth characteristics across firms and sectors. The feature-correlation heatmap shows that stock prices are positively associated with profitability and valuation-related variables, while most explanatory features maintain only moderate pairwise correlations. This indicates that the engineered variables capture complementary dimensions of firm performance rather than redundant information, reducing concerns regarding severe multicollinearity and supporting the suitability of regularised models such as Ridge Regression. 
+
+Sector-wise PE ratio analysis further highlights differences in market expectations, with Retail, Consumer, and Textiles trading at relatively higher valuation multiples, implying stronger anticipated growth, whereas Metals, Finance, and Energy appear comparatively undervalued. T
+
+he ROE-versus-profit-margin and revenue-versus-earnings-growth scatter plots demonstrate considerable firm-level heterogeneity, with several outliers exhibiting exceptionally strong profitability or earnings expansion. 
+
+Additionally, the EPS distribution indicates that earnings leadership is concentrated among a limited number of large firms, reflecting uneven financial strength within the market. Overall, the analysis confirms that future stock performance is influenced by a combination of valuation, profitability, growth, leverage, and momentum characteristics rather than a single dominant accounting metric, thereby justifying the multi-factor predictive framework adopted in the project.
 
 ---
 ## Chart 5 — Baseline vs Machine-Learning Models
@@ -351,6 +367,7 @@ Economically, the matrix confirms that future stock prices are influenced by a c
 This chart provides the central empirical comparison between the naive persistence benchmark and the machine-learning models. The figure demonstrates that all predictive models outperform the baseline on Mean Squared Error, indicating that publicly available financial and market information contains signal beyond the assumption that stock prices simply remain unchanged.
 
 Ridge Regression achieves the strongest overall out-of-sample performance, suggesting that a regularised linear specification generalises more effectively than highly flexible ensemble methods within a relatively small cross-sectional dataset. This finding is economically meaningful because it implies that the relationship between fundamentals, momentum and future prices is sufficiently stable that additional model complexity does not necessarily improve generalisation.
+
 The directional-accuracy comparison shows that the models consistently exceed the 50 % random baseline but remain near the 60 % charter threshold. This result aligns with broader empirical finance literature which shows that predicting exact price levels is generally easier than consistently predicting the sign of future returns over long horizons.
 
 ---
