@@ -5,10 +5,11 @@
 Yahoo Finance NSE Stock Data
 
 ## Access method
-Python yfinance package (Yahoo Finance API wrapper)
+Python yfinance API
 
 ## URL or endpoint
 https://finance.yahoo.com/
+
 
 ## One-row proof
 
@@ -20,5 +21,8 @@ https://finance.yahoo.com/
 
 ## Notes
 
-Successfully fetched historical NSE stock data using yfinance.
-This confirms the data source is live, reachable, and reproducible.
+Successfully fetched 91 NSE stock observations.
+Synthetic fallback used: False
+Generated at: 2026-05-13T18:29:22.148125
+
+we successfully fetched historical NSE stock data using yfinance.This confirms the data source is live, reachable, and reproducible.
