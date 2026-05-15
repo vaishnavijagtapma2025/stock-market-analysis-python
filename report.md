@@ -429,7 +429,7 @@ Although Ridge Regression exceeded the project’s directional-accuracy threshol
 | Run Command | `Runtime → Run all` (or `Ctrl + F9` in Colab) |
 | Estimated Runtime | ~5–8 minutes with live `yfinance` fetch; ~2 minutes using synthetic fallback |
 | Random Seed | `numpy.random.default_rng(seed=42)` for synthetic fallback |
-| Data Source Verification | `data/probe_output.txt`, `outputs/source_probes/yfinance_probe.md` |
+| Data Source Verification | `outputs/probe_output.md` | |
 
 All eleven charts are saved to the `outputs/` directory with fixed filenames and are embedded directly within the report using relative file paths. The notebook is designed to execute end-to-end in a single run without manual intervention, ensuring reproducibility of all charts, tables, and evaluation metrics reported in the project.
 
