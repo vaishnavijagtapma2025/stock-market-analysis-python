@@ -1460,7 +1460,7 @@ milestone_manifest = {
         {
             "name": "Yahoo Finance NSE Stock Data",
             "status": "working" if len(df) > 0 else "blocked",
-            "probe_artifact": "outputs/source_probes/yfinance_probe.md",
+            "probe_artifact": "outputs/probe_output.md",
             "note": f"Successfully fetched {len(df)} NSE stock observations using yfinance."
         }
     ],
@@ -1497,7 +1497,7 @@ Successfully fetched {len(df)} NSE stock observations.
 Synthetic fallback used: {SYNTHETIC_USED}
 Generated at: {datetime.now().isoformat()}
 """
-with open("outputs/source_probes/yfinance_probe.md", "w") as f:
+with open("outputs/probe_output.md", "w") as f:
     f.write(probe_text)
 
 print("\n✅ outputs/baseline_metric.json")
@@ -1516,7 +1516,7 @@ print("\n✅ outputs/model_comparison.json")
 
 print("✅ outputs/full_predictions_.csv")
 
-print("✅ outputs/source_probes/yfinance_probe.md")
+print("✅ outputs/probe_output.md")
 
 print("\n📊 Charts saved:")
 
