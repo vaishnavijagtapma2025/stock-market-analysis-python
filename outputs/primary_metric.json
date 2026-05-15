@@ -1,8 +1,7 @@
-
 {
   "metric_name": "test_mse",
-  "value": 1184325.1393,
-  "threshold": 6605312.9323,
+  "value": 1182815.9963,
+  "threshold": 6605312.9282,
   "passed": true,
   "model": "Ridge",
   "directional_accuracy_pct": 63.16,
