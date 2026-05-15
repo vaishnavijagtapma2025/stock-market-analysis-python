@@ -155,7 +155,7 @@ As an exploratory extension, a Top-15 portfolio was constructed by ranking firms
 | Best Model | Ridge Regression |
 | Primary Metric — MSE | ✅ Best-model MSE < Naive Persistence MSE |
 | Primary Threshold | Best-model MSE must be lower than baseline MSE |
-| Directional Accuracy (Best Model) | 63.2% |
+| Highest Directional Accuracy | 63.2% (XGBoost) |
 | Directional Threshold | ≥ 60% |
 | Overall Outcome | Primary prediction threshold achieved; directional threshold achieved by XGBoost but not by Ridge Regression |
 
@@ -185,7 +185,7 @@ Across the approximately 91 NSE large-cap firms in the sample, Ridge Regression 
 
 The Ridge Regression model achieved the strongest overall generalisation performance, producing the lowest test-set MSE (786,241 INR²) and highest R² (0.9876). Random Forest and Gradient Boosting produced substantially higher MSEs than even the baseline — a result that is economically interpretable: on a small cross-sectional dataset of approximately 91 firms, highly flexible ensemble methods are prone to overfitting the training set and generalising poorly to held-out firms. The comparatively better performance of Ridge confirms that the relationship between fundamentals, momentum, and future prices is sufficiently stable that a regularised linear model captures it more reliably than high-variance non-linear alternatives at this sample size.
 
-The best directional accuracy achieved by Ridge was 57.9%, narrowly below the project charter threshold of 60%. While this technically falls short of the stated directional criterion, it remains meaningfully above the 50% random-chance benchmark, indicating the presence of genuine directional information within the feature set. The shortfall is economically plausible given the difficulty of predicting one-year-ahead price direction in highly efficient large-cap equity markets, where returns are influenced by macroeconomic forces intentionally excluded from the feature space — including foreign institutional investor (FII) flows, RBI monetary-policy shifts, global risk-off events, commodity-price volatility, and geopolitical uncertainty. Directional accuracy in the range of 55–65% is generally considered realistic for a fundamentally driven cross-sectional equity model operating on publicly available information alone.
+The best directional accuracy achieved by Ridge was 57.9%, narrowly below the project charter threshold of 60%. While this technically falls short of the stated directional criterion, it remains meaningfully above the 50% random-chance benchmark, indicating the presence of genuine directional information within the feature set. The shortfall is economically plausible given the difficulty of predicting one-year-ahead price direction in highly efficient large-cap equity markets, where returns are influenced by macroeconomic forces intentionally excluded from the feature space — including foreign institutional investor (FII) flows, RBI monetary-policy shifts, global risk-off events, commodity-price volatility, and geopolitical uncertainty. 
 
 ### Note on the Baseline R² = 0.8976
 
@@ -195,7 +195,9 @@ The unusually high R² for the naive persistence model is not an error. In this 
 
 ## 5.4 Conclusion
 
-The project partially satisfied its stated success criteria. The primary objective was achieved: Ridge Regression substantially outperformed the naive persistence benchmark on out-of-sample MSE, indicating that publicly available firm fundamentals, sector-relative signals, and momentum indicators contain meaningful predictive information for future NSE large-cap prices. However, the secondary directional-accuracy target of 60% was narrowly missed, with the best overall model achieving 57.9% directional accuracy on the held-out test set. Taken together, the results suggest that machine learning models can improve price-level forecasting accuracy relative to naive persistence, but reliably predicting the direction of one-year-ahead stock movements remains difficult in highly efficient large-cap equity markets.
+The project partially satisfied its stated success criteria. Ridge Regression substantially outperformed the naive persistence benchmark on out-of-sample MSE, indicating that publicly available firm fundamentals, sector-relative signals, and momentum indicators contain meaningful predictive information for future NSE large-cap prices.
+
+However, predictive performance differed across evaluation metrics. Ridge Regression achieved the strongest overall price-level forecasting performance, while XGBoost achieved the highest directional accuracy at 63.2%, exceeding the project charter threshold of 60% but failing to outperform the baseline on the primary MSE criterion. Taken together, the results suggest that different machine-learning models captured different dimensions of predictive performance within the dataset.
 
 ---
 
