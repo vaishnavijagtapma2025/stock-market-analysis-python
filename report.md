@@ -155,9 +155,11 @@ As an exploratory extension, a Top-15 portfolio was constructed by ranking firms
 | Best Model | Ridge Regression |
 | Primary Metric — MSE | ✅ Best-model MSE < Naive Persistence MSE |
 | Primary Threshold | Best-model MSE must be lower than baseline MSE |
-| Highest Directional Accuracy | 63.2% (XGBoost) |
+| Highest Directional Accuracy (Overall) | 73.7% (Naive Persistence) |
+| Best ML Directional Accuracy | 63.2% (Ridge Regression) |
 | Directional Threshold | ≥ 60% |
-| Overall Outcome | Primary prediction threshold achieved; directional threshold achieved by XGBoost but not by Ridge Regression |
+| Overall Outcome | ✅ Ridge Regression achieved the strongest overall performance, substantially outperforming the naive benchmark on MSE while also exceeding the 60% directional-accuracy threshold |
+
 
 
 ---
@@ -174,21 +176,35 @@ The complete out-of-sample model performance results are presented below. Ridge 
 | Gradient Boosting | 22,638,135 | 0.6324 | 42.1% |
 | XGBoost | 8,935,960 | 0.8549 | 52.6% |
 
-The Ridge model substantially outperformed the naive persistence benchmark, reducing out-of-sample Mean Squared Error by nearly 89% while simultaneously increasing explanatory power to an R² of 0.9870. This indicates that the engineered feature set — including firm fundamentals, valuation ratios, sector-relative indicators, and momentum measures — contained significant predictive information beyond simple price persistence. Although the naive persistence benchmark maintained the strongest directional accuracy overall, Ridge Regression still exceeded the project’s 60% directional-accuracy threshold, demonstrating that the model was capable of capturing both price-level variation and the direction of future price movements with reasonable consistency.
+The Ridge model substantially outperformed the naive persistence benchmark, reducing out-of-sample Mean Squared Error by nearly 89% while simultaneously increasing explanatory power to an R² of 0.9870. This indicates that the engineered feature set including firm fundamentals, valuation ratios, sector-relative indicators, and momentum measures contained significant predictive information beyond simple price persistence. Although the naive persistence benchmark maintained the strongest directional accuracy overall, Ridge Regression still exceeded the project’s 60% directional-accuracy threshold, demonstrating that the model was capable of capturing both price-level variation and the direction of future price movements with reasonable consistency.
 
 ---
 
 ## 5.3 Interpretation of Results
 
-Across the approximately 91 NSE large-cap firms in the sample, Ridge Regression substantially outperformed the naive persistence benchmark on price-level prediction accuracy. This suggests that the combination of firm-level fundamentals, sector-relative valuation measures, and technical momentum indicators contains genuine predictive signal for future stock prices.
+## 5.3 Interpretation of Results
 
-The Ridge Regression model achieved the strongest overall generalisation performance, producing the lowest test-set MSE (786,241 INR²) and highest R² (0.9876). Random Forest and Gradient Boosting produced substantially higher MSEs than even the baseline — a result that is economically interpretable: on a small cross-sectional dataset of approximately 91 firms, highly flexible ensemble methods are prone to overfitting the training set and generalising poorly to held-out firms. The comparatively better performance of Ridge confirms that the relationship between fundamentals, momentum, and future prices is sufficiently stable that a regularised linear model captures it more reliably than high-variance non-linear alternatives at this sample size.
+The empirical results indicate that publicly available financial, valuation, sector-level, and technical indicators contain meaningful predictive information regarding future stock-price behaviour within the NSE large-cap universe. Across the approximately 91 firms included in the dataset, Ridge Regression achieved the strongest overall out-of-sample performance, substantially outperforming the naive persistence benchmark as well as the more complex ensemble-based machine-learning models.
 
-The best directional accuracy achieved by Ridge was 57.9%, narrowly below the project charter threshold of 60%. While this technically falls short of the stated directional criterion, it remains meaningfully above the 50% random-chance benchmark, indicating the presence of genuine directional information within the feature set. The shortfall is economically plausible given the difficulty of predicting one-year-ahead price direction in highly efficient large-cap equity markets, where returns are influenced by macroeconomic forces intentionally excluded from the feature space — including foreign institutional investor (FII) flows, RBI monetary-policy shifts, global risk-off events, commodity-price volatility, and geopolitical uncertainty. 
+Ridge Regression produced the lowest test-set Mean Squared Error (803,025 INR²), the highest explanatory power (\( R^2 = 0.9870 \)), and directional accuracy of 63.2%. Relative to the naive benchmark, the Ridge model reduced forecasting error by approximately 89%, demonstrating that the engineered feature set contributed substantial predictive value beyond simple price persistence. Economically, this suggests that future stock-price levels are systematically associated with combinations of profitability, valuation, earnings strength, momentum, and sector-relative characteristics rather than being entirely random or persistence-driven.
 
-### Note on the Baseline R² = 0.8976
+The comparative model results also provide insight into the relationship between model complexity and generalisation performance in financial datasets. Random Forest and Gradient Boosting generated significantly larger prediction errors than Ridge Regression and, in some cases, even underperformed the naive persistence benchmark. This outcome is economically interpretable because the dataset is relatively small and cross-sectional in nature, making highly flexible ensemble methods more susceptible to overfitting firm-specific noise and unstable training patterns. Although XGBoost performed comparatively better among the non-linear models, its predictive accuracy still remained below that of Ridge Regression. In contrast, Ridge applies regularisation that penalises excessive model complexity, allowing it to capture stable underlying relationships more effectively across unseen firms.
 
-The unusually high R² for the naive persistence model is not an error. In this dataset, `current_price` (the predictor at time *t−1*) and `target_price` (the outcome at time *t*) are both annual closing prices for the same stocks measured approximately one year apart. Because the NSE large-cap universe spans a very wide price range — from roughly ₹150 to over ₹35,000 per share — the cross-sectional variance in price levels is enormous. A naive model that simply predicts `target_price = current_price` explains most of that level variance (hence R² ≈ 0.90), even though it captures none of the year-on-year change. Mathematically, R² measures explained variance in *levels*, not returns; a stock priced at ₹30,000 today will almost certainly be closer to ₹30,000 than to ₹500 next year, regardless of model sophistication. The MSE metric, which penalises absolute price-level errors, is therefore the correct primary comparison and correctly shows Ridge Regression outperforming the baseline by approximately 88%.
+The directional-accuracy results further reinforce the economic relevance of the modelling framework. Ridge Regression achieved directional accuracy above both the 50% random benchmark and the project threshold of 60%, indicating that the feature set captured meaningful information not only about future price magnitudes but also about the likely direction of stock-price movements. However, directional forecasting remained substantially more difficult than predicting approximate price levels, which is consistent with broader empirical finance literature. Long-horizon equity returns are heavily influenced by unpredictable macroeconomic and behavioural factors not fully represented within the feature space, including monetary-policy changes, foreign institutional investor (FII) flows, geopolitical events, commodity-price volatility, and shifts in market sentiment.
+
+### Note on the High Baseline \( R^2 = 0.8821 \)
+
+The relatively high \( R^2 \) obtained by the naive persistence benchmark is economically expected and does not indicate a modelling error. In this dataset, `current_price` and `target_price` are both annual stock-price levels measured approximately one year apart for the same firms. Because the NSE large-cap universe spans an extremely wide cross-sectional price range — from roughly ₹150 to over ₹35,000 per share — a large proportion of variation in future price *levels* is naturally explained by current price levels alone.
+
+Under the naive persistence benchmark:
+
+```math
+\text{target\_price} = \text{current\_price}
+```
+
+high-priced firms generally remain relatively high-priced one year later, while lower-priced firms remain comparatively lower-priced. Consequently, the baseline model achieves a strong \( R^2 = 0.8821 \) despite containing no genuine forecasting mechanism beyond price persistence.
+
+Importantly, \( R^2 \) measures explained variance in price *levels* rather than the ability to predict future return changes. Mean Squared Error (MSE) therefore serves as the more economically meaningful primary evaluation metric because it directly penalises forecasting error magnitude. Under this metric, Ridge Regression substantially outperformed the naive benchmark, reducing out-of-sample MSE from approximately 7.26 million INR² to roughly 0.80 million INR² while simultaneously improving explanatory power to \( R^2 = 0.9870 \). Together, these findings confirm that the engineered valuation, profitability, momentum, and sector-level variables contain economically meaningful predictive signal beyond simple price-level continuation.
 
 ---
 
@@ -344,7 +360,7 @@ However, the portfolio exercise remains exploratory rather than investable. The 
 
 ## 7.1 Full Predictions Table (`full_predictions_.csv`)
 
-The `full_predictions_.csv` table provides the most granular evidentiary output of the project by reporting realised and predicted values for every firm individually. For each NSE large-cap stock, the table includes the historical price (`Price_1yr_Ago`), realised current price (`Actual_Today`), model-predicted future price (`Ridge_Predicted`), actual and predicted returns, prediction error, directional correctness, and a suggested investment signal. This output enables direct inspection of model performance at the stock level — including which firms were predicted accurately and which generated substantial forecast errors — improving transparency for reviewers who wish to assess whether aggregate metrics such as MSE and directional accuracy reflect broad model consistency or are disproportionately influenced by a small number of highly successful predictions. The table also reveals that predictive performance varies materially across firms and sectors, suggesting that some industries may be inherently more predictable than others within the current feature framework.
+The `full_predictions_.csv` table provides the most granular evidentiary output of the project by reporting realised and predicted values for every firm individually. For each NSE large-cap stock, the table includes the historical price (`Price_1yr_Ago`), realised current price (`Actual_Today`), model-predicted future price (`Ridge_Predicted`), actual and predicted returns, prediction error, directional correctness, and a suggested investment signal. This output enables direct inspection of model performance at the stock level including which firms were predicted accurately and which generated substantial forecast errors improving transparency for reviewers who wish to assess whether aggregate metrics such as MSE and directional accuracy reflect broad model consistency or are disproportionately influenced by a small number of highly successful predictions. The table also reveals that predictive performance varies materially across firms and sectors, suggesting that some industries may be inherently more predictable than others within the current feature framework.
 
 ---
 
