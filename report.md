@@ -92,11 +92,11 @@ for all firms in the held-out test set. This serves as the canonical persistence
 
 ---
 
-## 4.2 Feature Engineering (26 Features)
+## 4.2 Feature Engineering (27 Features)
 
-All features were constructed exclusively using information available at time *t−1*, prior to the prediction horizon, ensuring strict prevention of look-ahead bias. A total of 26 engineered predictors span four feature families:
+All features were constructed exclusively using information available at time *t−1*, prior to the prediction horizon, ensuring strict prevention of look-ahead bias. A total of 27 engineered predictors span four feature families:
 
-**Firm-level fundamentals (16):** `pe_ratio`, `roe`, `roa`, `profit_margin`, `revenue_growth`, `earnings_growth`, `debt_to_equity`, `current_ratio`, `beta`, `price_to_book`, `dividend_yield`, `eps`, `ebitda_margin`, `log_market_cap`, `earnings_yield` (defined as 1/PE, winsorised at ±2), and `peg_proxy` (PE divided by |earnings_growth × 100| + ε, winsorised at ±50).
+**Firm-level fundamentals (17):** `pe_ratio`, `roe`, `roa`, `profit_margin`, `revenue_growth`, `earnings_growth`, `debt_to_equity`, `current_ratio`, `beta`, `price_to_book`, `dividend_yield`, `eps`, `ebitda_margin`, `log_market_cap`, `earnings_yield` (defined as 1/PE, winsorised at ±2), and `peg_proxy` (PE divided by |earnings_growth × 100| + ε, winsorised at ±50).
 
 **Sector-relative signals (4):** `sector_median_pe`, `relative_pe` (firm PE divided by sector median PE), `sector_avg_margin`, and `sector_avg_growth`.
 
@@ -122,7 +122,7 @@ Four supervised regression models were trained and evaluated.
 
 **Random Forest** (300 trees, `max_depth = 6`, `max_features = 0.70`): An ensemble of decorrelated decision trees designed to capture non-linear interactions while controlling overfitting on the relatively small cross-sectional sample.
 
-**Gradient Boosting** (300 estimators, learning rate = 0.05, `max_depth = 4`, `subsample = 0.8`): Sequential residual-fitting ensemble model with stochastic subsampling to reduce variance and improve generalisation.
+**Gradient Boosting** (300 estimators, learning rate = 0.05, `max_depth = 4`, `subsample = 0.8`, `min_samples_leaf = 2`): Sequential residual-fitting ensemble model with stochastic subsampling to reduce variance and improve generalisation.
 
 **XGBoost** (400 estimators, learning rate = 0.05, `max_depth = 4`, L1 regularisation = 0.1, L2 regularisation = 1.0): Regularised gradient boosting with column subsampling (`colsample_bytree = 0.8`). SHAP values were computed post-hoc using `shap.TreeExplainer` to provide model interpretability and feature-attribution analysis.
 
@@ -161,10 +161,6 @@ As an exploratory extension, a Top-15 portfolio was constructed by ranking firms
 
 
 ---
-
-## 5.2 Model Performance Summary
-
-## 5.2 Model Performance Summary
 
 ## 5.2 Model Performance Summary
 
