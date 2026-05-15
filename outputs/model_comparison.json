@@ -1,0 +1,36 @@
+{
+  "models": [
+    {
+      "name": "Baseline (Naive)",
+      "mse": 6605312.8931,
+      "r2": 0.8965,
+      "dir_acc_pct": 73.68
+    },
+    {
+      "name": "Ridge",
+      "mse": 1182815.9794,
+      "r2": 0.9815,
+      "dir_acc_pct": 63.16
+    },
+    {
+      "name": "Random Forest",
+      "mse": 29213941.7447,
+      "r2": 0.5422,
+      "dir_acc_pct": 47.37
+    },
+    {
+      "name": "Gradient Boosting",
+      "mse": 24974896.3256,
+      "r2": 0.6087,
+      "dir_acc_pct": 42.11
+    },
+    {
+      "name": "XGBoost",
+      "mse": 10334084.4323,
+      "r2": 0.8381,
+      "dir_acc_pct": 57.89
+    }
+  ],
+  "best_model": "Ridge",
+  "generated_at": "2026-05-15T14:55:42.847520"
+}
