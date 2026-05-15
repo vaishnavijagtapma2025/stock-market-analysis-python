@@ -5,7 +5,7 @@
     {
       "name": "Yahoo Finance NSE Stock Data",
       "status": "working",
-      "probe_artifact": "outputs/source_probes/yfinance_probe.md",
+      "probe_artifact": "outputs/probe_output.md",
       "note": "Successfully fetched 91 NSE stock observations using yfinance."
     }
   ],
