@@ -1,7 +1,7 @@
 
 {
-  "metric_name": "baseline_mse",
-  "value": 7258988.0454,
+ "metric_name": "baseline_mse",
+  "value": 6605312.9282,
   "unit": "INR_squared",
   "notes": "Naive persistence: predict target_price = current_price for all test firms.",
   "is_template": false
