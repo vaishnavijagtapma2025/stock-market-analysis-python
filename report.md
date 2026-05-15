@@ -182,7 +182,6 @@ The Ridge model substantially outperformed the naive persistence benchmark, redu
 
 ## 5.3 Interpretation of Results
 
-## 5.3 Interpretation of Results
 
 The empirical results indicate that publicly available financial, valuation, sector-level, and technical indicators contain meaningful predictive information regarding future stock-price behaviour within the NSE large-cap universe. Across the approximately 91 firms included in the dataset, Ridge Regression achieved the strongest overall out-of-sample performance, substantially outperforming the naive persistence benchmark as well as the more complex ensemble-based machine-learning models.
 
@@ -205,14 +204,6 @@ Under the naive persistence benchmark:
 high-priced firms generally remain relatively high-priced one year later, while lower-priced firms remain comparatively lower-priced. Consequently, the baseline model achieves a strong \( R^2 = 0.8821 \) despite containing no genuine forecasting mechanism beyond price persistence.
 
 Importantly, \( R^2 \) measures explained variance in price *levels* rather than the ability to predict future return changes. Mean Squared Error (MSE) therefore serves as the more economically meaningful primary evaluation metric because it directly penalises forecasting error magnitude. Under this metric, Ridge Regression substantially outperformed the naive benchmark, reducing out-of-sample MSE from approximately 7.26 million INR² to roughly 0.80 million INR² while simultaneously improving explanatory power to \( R^2 = 0.9870 \). Together, these findings confirm that the engineered valuation, profitability, momentum, and sector-level variables contain economically meaningful predictive signal beyond simple price-level continuation.
-
----
-
-## 5.4 Conclusion
-
-The project partially satisfied its stated success criteria. Ridge Regression substantially outperformed the naive persistence benchmark on out-of-sample MSE, indicating that publicly available firm fundamentals, sector-relative signals, and momentum indicators contain meaningful predictive information for future NSE large-cap prices.
-
-However, predictive performance differed across evaluation metrics. Ridge Regression achieved the strongest overall price-level forecasting performance, while XGBoost achieved the highest directional accuracy at 63.2%, exceeding the project charter threshold of 60% but failing to outperform the baseline on the primary MSE criterion. Taken together, the results suggest that different machine-learning models captured different dimensions of predictive performance within the dataset.
 
 ---
 
