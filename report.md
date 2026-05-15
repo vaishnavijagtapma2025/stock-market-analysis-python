@@ -39,7 +39,7 @@ Indian large-cap equity markets are heavily researched and institutionally follo
 | Success Threshold | Best model MSE < Naive Persistence Baseline |
 | Baseline | Naive Persistence |
 | Hypothesis | ML model beats naive persistence on MSE and achieves ≥60% directional accuracy |
-| Sample | ~90 NSE large-cap firms |
+| Sample | ~91 NSE large-cap firms |
 | Split | 80% Train / 20% Test |
 | Models | Ridge, Random Forest, Gradient Boosting, XGBoost |
 | Output Files | `primary_metric.json`, `baseline_metric.json`, `milestone_manifest.json` |
@@ -391,9 +391,9 @@ However the portfolio exercise remains exploratory rather than investable. The a
 
 # 5. Results and Output Interpretation
 
-## Full Predictions Table (`full_predictions.csv`)
+## Full Predictions Table (`full_predictions_.csv`)
 
-The `full_predictions.csv` table provides the most granular evidentiary output of the project by reporting realised and predicted values for every firm individually. For each NSE large-cap stock, the table includes:
+The `full_predictions_.csv` table provides the most granular evidentiary output of the project by reporting realised and predicted values for every firm individually. For each NSE large-cap stock, the table includes:
 
 - historical price (`Price_1yr_Ago`)
 - realised current price (`Actual_Today`)
