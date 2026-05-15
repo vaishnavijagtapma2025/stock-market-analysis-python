@@ -14,7 +14,7 @@ This folder contains the processed datasets and generated outputs used in the In
 | **URL** | https://finance.yahoo.com |
 | **Licence / access rule** | Public, free, no API key required. Yahoo Finance data is used strictly for academic and educational purposes. |
 | **How it is fetched** | `Cell 3` of the notebook using `yf.download()` for price data and `yf.Ticker().info` for firm fundamentals |
-| **Tickers covered** | ~90 NSE large-cap stocks listed on the National Stock Exchange of India (`.NS` suffix) |
+| **Tickers covered** | ~91 NSE large-cap stocks listed on the National Stock Exchange of India (`.NS` suffix) |
 | **What is included in the repository** | Cleaned and feature-engineered datasets generated from the live fetch pipeline |
 | **What is excluded** | Raw bulk downloads, temporary cache files, and intermediate API outputs are intentionally excluded |
 
@@ -67,7 +67,7 @@ All technical indicators are generated strictly using historical information ava
 If fewer than 20 tickers are successfully fetched from Yahoo Finance, the pipeline automatically activates a synthetic fallback generator.
 
 The fallback:
-- Generates 90 synthetic firms
+- Generates 91 synthetic firms
 - Uses sector-specific parameter distributions
 - Preserves reproducibility using a fixed random seed
 - Ensures the project remains executable even if live API fetches fail
