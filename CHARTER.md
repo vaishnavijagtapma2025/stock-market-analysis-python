@@ -23,7 +23,7 @@ This project presents a data-driven analysis and prediction of stock prices for 
 |---|---|---|
 | **Anushmitaa Ghosh** | Charter & Pipeline Lead & Code Lead| Project charter authoring and all revisions (`CHARTER.md`); defining the research question, hypothesis, and scope limits; `pyproject.toml` dependency management; `main.py` pipeline integration and end-to-end testing; synthetic fallback design; outputs folder structure and reproducibility checks, report.md|
 | **Vaishnavi Jagtap** | Modelling & Repository Lead & Code Lead| Repository setup, branching, and version control; `main.py` model implementation (Ridge Regression, Random Forest, Gradient Boosting, XGBoost); hyperparameter tuning; SHAP feature importance analysis; `pyproject.toml` updates; `README.md` documentation; overall code quality and review, AI_USAGE_LOG.md|
-| **Anushka Bid** | Evaluation & Data Lead and Engineering & Code Lead | Python development and implementation of `main.py`; management and structuring of `outputs/`, `data/`, `notebooks/`, and `artifacts/probes/` repository workflows; handling of `report.md` and project documentation; generation of `primary_metric.json`, `baseline_metric.json`, `milestone_manifest.json`, `full_predictions_.csv`, and model output visualizations; implementation of directional accuracy evaluation and baseline persistence benchmarks; portfolio analytics including Sharpe Ratio, Information Ratio, and Max Drawdown; management of `probe_output.txt` |
+| **Anushka Bid** | Evaluation & Data Lead and Engineering & Code Lead | Python development and implementation of `main.py`; management and structuring of `outputs/`, `data/`, `notebooks/`, and `artifacts/probes/` repository workflows; handling of `report.md` and project documentation; generation of `primary_metric.json`, `baseline_metric.json`, `milestone_manifest.json`, `full_predictions_.csv`, and model output visualizations; implementation of directional accuracy evaluation and baseline persistence benchmarks; portfolio analytics including Sharpe Ratio, Information Ratio, and Max Drawdown; management of `outputs/probe_output.md`  |
 
 All three members jointly contribute to writing, review, and final submission.
 
@@ -145,7 +145,7 @@ print("Current price:", float(hist['Close'].iloc[-1]))
 print("PE Ratio:", ticker.info.get('trailingPE'))
 ```
 
-**Probe path:** `data/probe_output.txt` — generated automatically when running `uv run main.py`.
+**Probe path:** | `outputs/probe_output.md` — generated automatically when running `uv run main.py`.
 
 If Yahoo Finance rate-limits a session, the notebook activates a **synthetic fallback** automatically (< 20 tickers fetched triggers synthetic data generation for all 91 firms using sector-level parameters). No manual intervention required.
 
@@ -197,7 +197,7 @@ The main dataset is available in the data folder.
 - [x] It writes `outputs/milestone_manifest.json` confirming data source status and run metadata.
 - [x] A `README.md` documents the commands and expected outputs in ≤ 20 lines.
 - [x] All data is fetched in-script via `yfinance`; synthetic fallback is triggered automatically if live data is unavailable.
-- [x] A `data/probe_output.txt` is written on every run confirming Yahoo Finance access (or fallback activation).
+- [x] A `outputs/probe_output.md`  is written on every run confirming Yahoo Finance access (or fallback activation).
 
 ---
 
