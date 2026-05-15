@@ -283,19 +283,23 @@ The shortfall is economically plausible given the difficulty of predicting one-y
 
 As a result, directional accuracy in the range of 55–65% is generally considered realistic for a fundamentally driven cross-sectional equity model operating on publicly available information.
 
-### Note on the Baseline R² = 0.8976
+### Note on the Baseline \( R^2 = 0.8821 \)
 
-The unusually high R² for the naive persistence model warrants explanation and is not an error. In this dataset, `current_price` (the predictor at time *t−1*) and `target_price` (the outcome at time *t*) are both annual closing prices for the same stocks measured approximately one year apart. Because the NSE large-cap universe spans a very wide price range — from roughly ₹150 to over ₹35,000 per share — the cross-sectional variance in price levels is enormous.
+The relatively high \( R^2 \) obtained by the naive persistence benchmark is economically expected and does not indicate a modelling or evaluation error. In this dataset, `current_price` represents the stock price at time \( t-1 \), while `target_price` represents the realised stock price approximately one year later at time \( t \). Because the NSE large-cap universe spans an extremely wide cross-sectional price range — from roughly ₹150 to more than ₹35,000 per share — the overall variance in stock-price *levels* is very large.
 
-A naive model that simply predicts:
+Under the naive persistence benchmark, future prices are predicted simply as:
 
 ```math
 \text{target\_price} = \text{current\_price}
 ```
 
-explains most of that level variance (hence \( R^2 \approx 0.90 \)), even though it captures none of the year-on-year change. Mathematically, R² measures explained variance in *levels*, not returns; a stock priced at ₹30,000 today will almost certainly be closer to ₹30,000 than to ₹500 next year, regardless of model sophistication.
+Even without capturing actual future return dynamics, this assumption explains a substantial proportion of variation in price levels because high-priced firms generally remain relatively high-priced one year later, while lower-priced firms remain comparatively lower-priced. Consequently, the baseline model achieves a relatively strong \( R^2 = 0.8821 \), despite containing no genuine forecasting mechanism beyond price persistence.
 
-The Mean Squared Error (MSE) metric which penalises absolute price-level errors is therefore the correct primary comparison and correctly shows Ridge Regression outperforming the baseline by approximately 88%.The Ridge model reduced prediction error substantially relative to the naive persistence benchmark, lowering out-of-sample MSE by approximately 88%. This indicates that the feature set contained meaningful predictive information beyond simple price persistence.
+Importantly, \( R^2 \) measures explained variance in *levels* rather than the ability to predict future return changes. A stock trading at ₹30,000 today is statistically far more likely to remain closer to ₹30,000 than to ₹500 after one year, regardless of whether the model captures the precise magnitude or direction of its return movement.
+
+For this reason, Mean Squared Error (MSE) serves as the more economically meaningful primary evaluation metric within this project. Unlike \( R^2 \), MSE directly penalises absolute forecasting errors and therefore provides a clearer assessment of whether the machine-learning models add predictive value beyond naive persistence.
+
+The empirical results confirm that Ridge Regression substantially outperformed the baseline benchmark, reducing out-of-sample MSE from approximately 7.26 million INR² to roughly 0.80 million INR² — an improvement of nearly 89%. Ridge Regression also increased explanatory power to \( R^2 = 0.9870 \) while achieving directional accuracy above the project threshold. Together, these findings demonstrate that the engineered valuation, profitability, momentum, and sector-level variables contain economically meaningful predictive information beyond simple price-level continuation.
 
 
 ---
