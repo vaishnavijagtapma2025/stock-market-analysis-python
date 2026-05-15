@@ -1,12 +1,12 @@
 
 {
   "metric_name": "test_mse",
-  "value": 786240.8459,
-  "threshold": 6517364.8726,
+  "value": 803025.0172,
+  "threshold": 7258988.0454,
   "passed": true,
   "model": "Ridge",
-  "directional_accuracy_pct": 57.89,
-  "directional_passed": false,
+  "directional_accuracy_pct": 63.16,
+  "directional_passed": true,
   "notes": "Best model: Ridge. Passed if best_mse < baseline_mse.",
   "is_template": false
 }
