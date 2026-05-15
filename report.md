@@ -164,18 +164,19 @@ As an exploratory extension, a Top-15 portfolio was constructed by ranking firms
 
 ## 5.2 Model Performance Summary
 
-The Ridge Regression model achieved the strongest overall out-of-sample performance, producing the lowest Mean Squared Error among all evaluated models. The complete performance results across all models are presented in the table below.
+## 5.2 Model Performance Summary
 
-| Model | MSE (INR²) | R² | Directional Accuracy |
-|---|---|---|---|
-| Baseline (Naive Persistence) | 6,517,365 | 0.8976 | 78.9% |
-| **Ridge Regression** | **786,241** | **0.9876** | **57.9%** |
-| Random Forest | 28,911,242 | 0.5458 | 47.4% |
-| Gradient Boosting | 23,842,551 | 0.6254 | 57.9% |
-| XGBoost | 9,983,496 | 0.8432 | 63.2% |
+The Ridge Regression model achieved the strongest overall out-of-sample performance, producing the lowest Mean Squared Error (MSE) and the highest explanatory power among all evaluated models.
 
-The Ridge model reduced prediction error substantially relative to the naive persistence benchmark, lowering out-of-sample MSE by approximately 88% (from 6,517,365 to 786,241 INR²). This indicates that the feature set contained meaningful predictive information beyond simple price persistence. XGBoost was the only model to individually exceed the project charter directional accuracy threshold of 60%, achieving 63.2% directional accuracy. However, because its MSE (9,983,496 INR²) exceeded the baseline MSE, Ridge Regression was designated the overall best model under the primary evaluation criterion.
+| Model                          | MSE        | \( R^2 \) | Directional Accuracy |
+|--------------------------------|------------|------------|----------------------|
+| Baseline (Naive Persistence)   | 7,258,988  | 0.8821     | 73.7%                |
+| Ridge Regression               | 803,025    | 0.9870     | 63.2%                |
+| Random Forest                  | 27,622,061 | 0.5514     | 47.4%                |
+| Gradient Boosting              | 22,638,135 | 0.6324     | 42.1%                |
+| XGBoost                        | 8,935,960  | 0.8549     | 52.6%                |
 
+The Ridge model reduced prediction error substantially relative to the naive persistence benchmark, lowering out-of-sample MSE by approximately 89%. This indicates that the engineered valuation, profitability, momentum, and sector-based feature set contained economically meaningful predictive information beyond simple price persistence. In addition, Ridge Regression achieved directional accuracy above the project threshold, further supporting the effectiveness of the multi-factor forecasting framework.
 
 ---
 
