@@ -40,7 +40,7 @@ Expected runtime: **~3–5 minutes** in Colab (data fetch is the bottleneck).
 | `outputs/primary_metric.json` | Best model test MSE, baseline MSE threshold, pass/fail |
 | `outputs/baseline_metric.json` | Naive persistence baseline MSE |
 | `outputs/milestone_manifest.json` | Data source status, run metadata |
-| `data/probe_output.txt` | Yahoo Finance access confirmation (or fallback notice) |
+| `outputs/probe_output.md` | Yahoo Finance access confirmation (or fallback notice) |
 
 **Pass condition:** `best_model_mse < baseline_mse` → `"passed": true` in `primary_metric.json`.
 
