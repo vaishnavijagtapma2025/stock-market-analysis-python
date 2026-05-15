@@ -34,7 +34,7 @@ def build_milestone_manifest() -> dict:
             {
                 "name": "Yahoo Finance",
                 "status": "ok",
-                "probe_artifact": "data/probe_output.txt",
+                "probe_artifact": "outputs/probe_output.md",
                 "note": "Live stock and financial data fetched using yfinance.",
             }
         ],
