@@ -2,13 +2,13 @@
   "models": [
     {
       "name": "Baseline (Naive)",
-      "mse": 6605312.8931,
+      "mse": 6605312.9282,
       "r2": 0.8965,
       "dir_acc_pct": 73.68
     },
     {
       "name": "Ridge",
-      "mse": 1182815.9794,
+      "mse": 1182815.9963,
       "r2": 0.9815,
       "dir_acc_pct": 63.16
     },
