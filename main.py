@@ -34,7 +34,7 @@ print("✅ Imports done.")
 
 # ── Tickers & Sector Map ──────────────────────────────────────────────────────
 
-# ── 90 Large-Cap NSE Tickers ─────────────────────────────────────────────────
+# ── 91 Large-Cap NSE Tickers ─────────────────────────────────────────────────
 TICKERS = [
     "RELIANCE.NS","ONGC.NS","TCS.NS","INFY.NS","WIPRO.NS","HCLTECH.NS","TECHM.NS",
     "HDFCBANK.NS","ICICIBANK.NS","SBIN.NS","KOTAKBANK.NS","AXISBANK.NS","BAJFINANCE.NS",
@@ -101,6 +101,7 @@ print(f"Tickers      : {len(TICKERS)}")
 print(f"current_price window : {PUBLISH_DATE}")
 print(f"target_price window  : {TARGET_START}")
 print(f"Sectors      : {sorted(set(SECTOR_MAP.values()))}")
+
 
 # ── Helper: RSI ───────────────────────────────────────────────────────────────
 
@@ -462,7 +463,7 @@ ax3.axvline(np.log10(df["current_price"].median()), color="orange", lw=2,
 ax3.legend(fontsize=9)
 
 plt.suptitle("EDA Chart 3 — NSE Large-Cap Price Distribution Deep Dive", fontsize=14, fontweight="bold")
-plt.savefig("outputs/eda_chartA_price_distribution.png", bbox_inches="tight", dpi=120)
+plt.savefig("outputs/eda_chart3_price_distribution.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # ── Printed EDA Report: Price Distribution ───────────────────────────────
@@ -548,7 +549,7 @@ axes[2].set_title("Sector: Return vs Volatility", fontweight="bold")
 plt.suptitle("EDA Chart 4 — Sector Performance Dashboard (1-Year, May 2025 → May 2026)",
               fontsize=13, fontweight="bold", y=1.02)
 plt.tight_layout()
-plt.savefig("outputs/eda_chartB_sector_performance.png", bbox_inches="tight", dpi=120)
+plt.savefig( "outputs/eda_chart4_sector_performance.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # ── Printed EDA Report: Sector Performance ───────────────────────────────
@@ -648,7 +649,7 @@ ax5.set_xlabel("EPS (₹)")
 ax5.set_title("Top 15 Firms by EPS", fontweight="bold", fontsize=11)
 
 plt.suptitle("EDA Chart 5 — Fundamental Landscape of NSE Large-Caps", fontsize=14, fontweight="bold")
-plt.savefig("outputs/eda_chartC_fundamentals.png", bbox_inches="tight", dpi=120)
+plt.savefig("outputs/eda_chart5_fundamentals.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # ── Printed EDA Report: Fundamentals ─────────────────────────────────────
@@ -750,8 +751,8 @@ ax6.set_xlabel("Pearson r with 1-Yr Return")
 ax6.set_title("Technical Signal Correlations", fontweight="bold")
 
 plt.suptitle("EDA Chart 6 — Technical Signals & Momentum Analysis", fontsize=14, fontweight="bold")
+plt.savefig( "outputs/eda_chart6_technical.png", bbox_inches="tight", dpi=120)
 plt.tight_layout()
-plt.savefig("outputs/eda_chartD_technical.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # ── Printed EDA Report: Technical Signals ────────────────────────────────
@@ -975,7 +976,7 @@ axes[3].legend(fontsize=8)
 
 plt.suptitle("Chart 7 — Model Performance Comparison  (🥇 = Best)", fontsize=13, fontweight="bold", y=1.02)
 plt.tight_layout()
-plt.savefig("outputs/chart3_model_comparison.png", bbox_inches="tight", dpi=120)
+plt.savefig( "outputs/chart7_model_comparison.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 
@@ -1012,7 +1013,7 @@ scatter_plot(axes[1], y_test, second_preds, f"{second_name} (2nd)", r2_score(y_t
 
 plt.suptitle("Chart 8 — Actual vs Predicted Price (Test Set)", fontsize=13, fontweight="bold", y=1.02)
 plt.tight_layout()
-plt.savefig("outputs/chart4_actual_vs_predicted.png", bbox_inches="tight", dpi=120)
+plt.savefig("outputs/chart8_actual_vs_predicted.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # Chart 9 — Residual Analysis
@@ -1039,8 +1040,8 @@ for col, (name, preds) in enumerate([(best_name, best_preds), (second_name, seco
     axes[1][col].legend(fontsize=9)
 
 plt.suptitle("Chart 9 — Residual Analysis", fontsize=13, fontweight="bold")
+plt.savefig( "outputs/chart9_residuals.png", bbox_inches="tight", dpi=120)
 plt.tight_layout()
-plt.savefig("outputs/chart5_residuals.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # Chart 10 — SHAP Feature Importance (XGBoost)
@@ -1066,7 +1067,7 @@ axes[1].set_title("XGBoost Built-in Importance", fontweight="bold")
 
 plt.suptitle("Chart 10 — Feature Importance & SHAP Analysis", fontsize=13, fontweight="bold")
 plt.tight_layout()
-plt.savefig("outputs/chart6_shap_importance.png", bbox_inches="tight", dpi=120)
+plt.savefig( "outputs/chart10_shap_importance.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 print("\nTop 5 most important features (SHAP):")
@@ -1124,7 +1125,7 @@ display(top15[["Ticker","Sector","current_price","pred_price","pred_return","act
                 current_price=lambda d: d.current_price.round(2))
         .reset_index(drop=True))
 
-# Chart 8 — Top-15 Portfolio vs Equal-Weight Benchmark
+# Chart 11 — Top-15 Portfolio vs Equal-Weight Benchmark
 
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
@@ -1154,9 +1155,9 @@ axes[1].axhline(0, color="black", lw=0.8)
 axes[1].set_title("Portfolio Summary Metrics", fontweight="bold")
 axes[1].set_ylabel("Value")
 
-plt.suptitle("Chart 8 — Top-15 Portfolio vs Equal-Weight Benchmark", fontsize=13, fontweight="bold", y=1.02)
+plt.suptitle("Chart 11 — Top-15 Portfolio vs Equal-Weight Benchmark", fontsize=13, fontweight="bold", y=1.02)
 plt.tight_layout()
-plt.savefig("outputs/chart8_portfolio.png", bbox_inches="tight", dpi=120)
+plt.savefig("outputs/chart11_portfolio.png", bbox_inches="tight", dpi=120)
 plt.show()
 
 # Cell 12 — Full Prediction Table (All Tickers)
@@ -1336,7 +1337,7 @@ styled = (
 display(styled)
 
 results.to_csv(
-    "outputs/full_predictions.csv",
+    "outputs/full_predictions_.csv",
     index=False
 )
 
@@ -1367,7 +1368,7 @@ print("  firms with expected declines are classified as Sell")
 print("  or Strong Sell candidates.")
 print("=" * 72)
 
-print("\n✅ outputs/full_predictions.csv saved.")
+print("\n✅ outputs/full_predictions_.csv saved.")
 
 # Cell 13 — Final Results Summary & Write All Output Files
 
@@ -1500,19 +1501,43 @@ with open("outputs/source_probes/yfinance_probe.md", "w") as f:
     f.write(probe_text)
 
 print("\n✅ outputs/baseline_metric.json")
+
 print(json.dumps(baseline_out, indent=2))
+
 print("\n✅ outputs/primary_metric.json")
+
 print(json.dumps(primary_out, indent=2))
+
 print("\n✅ outputs/milestone_manifest.json")
+
 print(json.dumps(milestone_manifest, indent=2))
+
 print("\n✅ outputs/model_comparison.json")
-print("✅ outputs/full_predictions.csv")
+
+print("✅ outputs/full_predictions_.csv")
+
 print("✅ outputs/source_probes/yfinance_probe.md")
+
 print("\n📊 Charts saved:")
-print("   outputs/chart1_data_overview.png")
-print("   outputs/chart2_eda_deepdive.png")
-print("   outputs/chart3_model_comparison.png")
-print("   outputs/chart4_actual_vs_predicted.png")
-print("   outputs/chart5_residuals.png")
-print("   outputs/chart6_shap_importance.png")
-print("   outputs/chart8_portfolio.png")
+
+print("   outputs/figures/chart1_data_overview.png")
+
+print("   outputs/figures/chart2_eda_deepdive.png")
+
+print("   outputs/figures/eda_chart3_price_distribution.png")
+
+print("   outputs/figures/eda_chart4_sector_performance.png")
+
+print("   outputs/figures/eda_chart5_fundamentals.png")
+
+print("   outputs/figures/eda_chart6_technical.png")
+
+print("   outputs/figures/chart7_model_comparison.png")
+
+print("   outputs/figures/chart8_actual_vs_predicted.png")
+
+print("   outputs/figures/chart9_residuals.png")
+
+print("   outputs/figures/chart10_shap_importance.png")
+
+print("   outputs/figures/chart11_portfolio.png")
