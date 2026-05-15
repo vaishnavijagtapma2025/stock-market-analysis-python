@@ -240,9 +240,7 @@ The feature-correlation analysis provides preliminary evidence regarding which v
 
 ---
 
-## 6.3 Chart 3 — Price Distribution Deep Dive
-
-Chart 3(EDA) — Price Distribution and Sector Boxplots
+## 6.3 Chart 3 — Price Distribution Deep Dive and Sector Boxplots
 
 The price-distribution visualisation demonstrates the strong right-skewness characteristic of equity-price datasets. A relatively small number of very high-priced firms coexist alongside a larger number of moderately priced firms, creating substantial scale imbalance across the universe. This justifies the use of logarithmic transformations and regularisation methods to stabilise estimation.
 
@@ -435,7 +433,7 @@ Although Ridge Regression exceeded the project’s directional-accuracy threshol
 
 | Field | Detail |
 |---|---|
-| Notebook | `Indian_Equity_Predictor_ECO6810_CLEAN.ipynb` |
+| Notebook | `Indian_Equity_Predictor_ECO6810_CLEAN (1).ipynb` |
 | Run Environment | Google Colab (Python 3.10+, GPU not required) |
 | Run Command | `Runtime → Run all` (or `Ctrl + F9` in Colab) |
 | Estimated Runtime | ~5–8 minutes with live `yfinance` fetch; ~2 minutes using synthetic fallback |
